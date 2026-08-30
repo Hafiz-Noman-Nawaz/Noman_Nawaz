@@ -13,7 +13,7 @@ export const StatusWidget = ({ settings }) => {
   const isAvailable = settings?.isAvailable !== false;
 
   return (
-    <div className="fixed bottom-6 right-6 z-40">
+    <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 max-w-[calc(100vw-2rem)]">
       <motion.div
         layout
         className="glass border-2 border-theme-glow shadow-2xl rounded-3xl overflow-hidden backdrop-blur-2xl transition-all duration-300"

@@ -34,7 +34,7 @@ export const ResumeModal = ({ isOpen, onClose, settings }) => {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto print:p-0 print:m-0">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto print:p-0 print:m-0">
         {/* Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -50,10 +50,10 @@ export const ResumeModal = ({ isOpen, onClose, settings }) => {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 30, scale: 0.95 }}
           transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-          className="relative z-50 w-full max-w-3xl max-h-[90vh] flex flex-col rounded-3xl bg-bg-secondary border-2 border-theme-glow shadow-2xl overflow-hidden print:border-none print:shadow-none print:max-h-full print:bg-white print:text-black"
+          className="relative z-50 w-full max-w-3xl max-h-[92vh] flex flex-col rounded-3xl bg-bg-secondary border-2 border-theme-glow shadow-2xl overflow-hidden my-auto print:border-none print:shadow-none print:max-h-full print:bg-white print:text-black"
         >
           {/* Header Bar */}
-          <div className="flex items-center justify-between px-6 py-4 border-b border-theme bg-surface/80 backdrop-blur-md sticky top-0 z-20 print:hidden">
+          <div className="flex items-center justify-between px-4 sm:px-6 py-3.5 sm:py-4 border-b border-theme bg-surface/80 backdrop-blur-md sticky top-0 z-20 print:hidden">
             <div className="flex items-center gap-2">
               <span className="text-sm font-display font-bold text-text">Curriculum Vitae</span>
               <span className="text-xs px-2 py-0.5 rounded-full bg-primary/15 text-primary border border-primary/30 font-semibold">

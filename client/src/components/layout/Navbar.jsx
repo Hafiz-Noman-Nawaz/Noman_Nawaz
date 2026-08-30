@@ -17,65 +17,62 @@ export const Navbar = ({ onOpenCommand, onOpenResume, onOpenTerminal }) => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 25);
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const navLinks = [
     { name: 'Work', href: '#projects' },
     { name: 'Skills', href: '#skills' },
-    { name: 'Reviews', href: '#testimonials' },
+    { name: 'Experience', href: '#timeline' },
+    { name: 'Certifications', href: '#certificates' },
+    { name: 'Testimonials', href: '#testimonials' },
     { name: 'Contact', href: '#contact' },
   ];
 
   const getThemeIcon = () => {
-    if (theme === 'dark') return <Moon className="w-4 h-4 text-purple-400" />;
     if (theme === 'light') return <Sun className="w-4 h-4 text-amber-500" />;
-    return <Zap className="w-4 h-4 text-emerald-400" />;
+    if (theme === 'contrast') return <Zap className="w-4 h-4 text-[#00ff66]" />;
+    return <Moon className="w-4 h-4 text-primary" />;
   };
 
   return (
     <motion.header
-      initial={{ y: -60, opacity: 0 }}
+      initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
         scrolled ? 'py-3' : 'py-5'
       }`}
     >
-      <div className="max-w-6xl mx-auto px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <nav
-          className={`flex items-center justify-between px-6 py-3 rounded-full transition-all duration-300 ${
+          className={`flex items-center justify-between px-3.5 sm:px-5 py-2.5 sm:py-3 rounded-full transition-all duration-300 ${
             scrolled
-              ? 'glass shadow-xl border-theme-glow/40 backdrop-blur-xl'
-              : 'bg-surface/40 backdrop-blur-md border border-theme'
+              ? 'glass bg-bg-secondary/90 shadow-2xl border-theme-glow backdrop-blur-xl'
+              : 'glass bg-surface/60 border-theme'
           }`}
         >
-          {/* Logo */}
+          {/* Brand Logo */}
           <Link
             to="/"
             onClick={playClick}
-            className="flex items-center gap-2.5 group focus:outline-none"
+            className="flex items-center gap-2 group flex-shrink-0"
           >
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-primary via-secondary to-accent p-[2px] transition-transform duration-300 group-hover:scale-105 shadow-md shadow-primary/20">
-              <div className="w-full h-full bg-bg rounded-[10px] flex items-center justify-center font-display font-black text-text text-sm">
-                NN
-              </div>
-            </div>
-            <span className="font-display font-bold text-base tracking-tight hidden sm:inline-block">
-              Noman<span className="text-primary">.</span>Nawaz
+            <span className="text-base sm:text-lg font-display font-black tracking-tight text-text">
+              noman<span className="text-primary">.</span>
             </span>
           </Link>
 
           {/* Desktop Nav Links */}
           {isHomePage && (
-            <div className="hidden md:flex items-center gap-1 bg-bg/60 px-4 py-1.5 rounded-full border border-theme">
+            <div className="hidden md:flex items-center gap-1">
               {navLinks.map((link) => (
                 <a
                   key={link.name}
                   href={link.href}
                   onClick={playClick}
-                  className="px-3.5 py-1 text-xs font-semibold text-secondary hover:text-text hover:bg-surface rounded-full transition-all duration-200"
+                  className="px-3.5 py-1.5 rounded-full text-xs font-semibold text-secondary hover:text-text hover:bg-surface transition-all"
                 >
                   {link.name}
                 </a>
@@ -83,20 +80,20 @@ export const Navbar = ({ onOpenCommand, onOpenResume, onOpenTerminal }) => {
             </div>
           )}
 
-          {/* Action Center: Cmd+K, Sound, Theme, Resume, Admin */}
-          <div className="flex items-center gap-2 sm:gap-3">
-            {/* Command Palette Trigger */}
+          {/* Action Center: Quick Search, Sound, Theme, Terminal, Mobile toggle */}
+          <div className="flex items-center gap-1 sm:gap-2">
+            {/* Quick Search */}
             <button
               onClick={() => {
                 playClick();
                 if (onOpenCommand) onOpenCommand();
               }}
-              title="Open Command Palette (Cmd + K / Ctrl + K)"
-              className="flex items-center gap-2 px-3 py-1.5 rounded-full glass hover:border-theme-glow text-xs font-semibold text-secondary hover:text-text transition-all"
+              title="Open Command Palette (Cmd + K)"
+              className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full glass hover:border-theme-glow text-xs font-semibold text-secondary hover:text-text transition-all"
             >
               <Search className="w-3.5 h-3.5 text-primary" />
-              <span className="hidden lg:inline-block">Quick Search</span>
-              <kbd className="hidden sm:inline-flex px-1.5 py-0.5 rounded text-[10px] font-mono bg-bg text-tertiary border border-theme">
+              <span className="hidden lg:inline-block text-[11px]">Search</span>
+              <kbd className="hidden sm:inline-flex px-1.5 py-0.5 rounded text-[9px] font-mono bg-bg text-tertiary border border-theme">
                 ⌘K
               </kbd>
             </button>
@@ -121,7 +118,7 @@ export const Navbar = ({ onOpenCommand, onOpenResume, onOpenTerminal }) => {
                 if (onOpenTerminal) onOpenTerminal();
               }}
               title="Open Interactive Terminal (~ / Backtick)"
-              className="p-2 rounded-full glass hover:border-theme-glow text-secondary hover:text-primary transition-all hidden sm:inline-flex"
+              className="p-1.5 sm:p-2 rounded-full glass hover:border-theme-glow text-secondary hover:text-primary transition-all hidden sm:inline-flex"
             >
               <Terminal className="w-4 h-4" />
             </button>
@@ -132,8 +129,8 @@ export const Navbar = ({ onOpenCommand, onOpenResume, onOpenTerminal }) => {
                 toggleSound();
               }}
               title={`UI Sound Effects: ${soundEnabled ? 'Enabled' : 'Muted'}`}
-              className={`p-2 rounded-full glass hover:border-theme-glow transition-all ${
-                soundEnabled ? 'text-primary' : 'text-tertiary'
+              className={`p-1.5 sm:p-2 rounded-full glass hover:border-theme-glow transition-all ${
+                soundEnabled ? 'text-primary' : 'text-tertiary opacity-70'
               }`}
             >
               {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4 opacity-60" />}
@@ -146,7 +143,7 @@ export const Navbar = ({ onOpenCommand, onOpenResume, onOpenTerminal }) => {
                 cycleTheme();
               }}
               title="Switch Theme (Dark / Light / High-Contrast)"
-              className="p-2 rounded-full glass hover:border-theme-glow transition-all"
+              className="p-1.5 sm:p-2 rounded-full glass hover:border-theme-glow transition-all"
             >
               {getThemeIcon()}
             </button>
@@ -155,7 +152,7 @@ export const Navbar = ({ onOpenCommand, onOpenResume, onOpenTerminal }) => {
             <Link
               to="/admin"
               onClick={playClick}
-              className="hidden sm:inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-primary/15 hover:bg-primary/25 border border-primary/30 text-primary text-xs font-bold transition-all hover:scale-105"
+              className="hidden sm:inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-primary/15 hover:bg-primary/25 border border-primary/30 text-primary text-xs font-bold transition-all"
             >
               <Shield className="w-3.5 h-3.5" />
               <span>CMS</span>
@@ -164,8 +161,11 @@ export const Navbar = ({ onOpenCommand, onOpenResume, onOpenTerminal }) => {
             {/* Mobile Menu Button */}
             {isHomePage && (
               <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="md:hidden p-2 rounded-xl text-text hover:bg-surface transition-colors"
+                onClick={() => {
+                  playClick();
+                  setMobileMenuOpen(!mobileMenuOpen);
+                }}
+                className="md:hidden p-1.5 rounded-xl text-text hover:bg-surface transition-colors"
                 aria-label="Toggle menu"
               >
                 {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -179,12 +179,12 @@ export const Navbar = ({ onOpenCommand, onOpenResume, onOpenTerminal }) => {
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden mx-6 mt-2 p-4 rounded-3xl glass border-theme-glow bg-bg-secondary/95 shadow-2xl"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="md:hidden mx-4 mt-2 p-5 rounded-3xl glass border-theme-glow bg-bg-secondary/95 shadow-2xl space-y-3"
           >
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-1">
               {navLinks.map((link) => (
                 <a
                   key={link.name}
@@ -196,20 +196,44 @@ export const Navbar = ({ onOpenCommand, onOpenResume, onOpenTerminal }) => {
                   className="px-4 py-2.5 rounded-2xl text-sm font-semibold text-secondary hover:text-text hover:bg-surface transition-colors flex items-center justify-between"
                 >
                   <span>{link.name}</span>
-                  <ArrowUpRight className="w-4 h-4 opacity-50" />
+                  <ArrowUpRight className="w-4 h-4 opacity-40" />
                 </a>
               ))}
+            </div>
 
+            <div className="pt-3 border-t border-theme grid grid-cols-2 gap-2">
               <button
                 onClick={() => {
                   setMobileMenuOpen(false);
                   if (onOpenResume) onOpenResume();
                 }}
-                className="px-4 py-2.5 rounded-2xl text-sm font-semibold text-primary hover:bg-surface text-left flex items-center justify-between"
+                className="px-3 py-2 rounded-xl glass hover:bg-surface text-xs font-bold text-text flex items-center justify-center gap-1.5"
               >
-                <span>View Resume</span>
-                <FileText className="w-4 h-4" />
+                <FileText className="w-3.5 h-3.5 text-primary" />
+                <span>Resume</span>
               </button>
+
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  if (onOpenTerminal) onOpenTerminal();
+                }}
+                className="px-3 py-2 rounded-xl glass hover:bg-surface text-xs font-bold text-text flex items-center justify-center gap-1.5"
+              >
+                <Terminal className="w-3.5 h-3.5 text-secondary" />
+                <span>CLI Terminal</span>
+              </button>
+            </div>
+
+            <div className="pt-2">
+              <Link
+                to="/admin"
+                onClick={() => setMobileMenuOpen(false)}
+                className="w-full py-2.5 rounded-xl bg-primary/15 border border-primary/30 text-primary text-xs font-bold flex items-center justify-center gap-2"
+              >
+                <Shield className="w-3.5 h-3.5" />
+                <span>Admin CMS Panel</span>
+              </Link>
             </div>
           </motion.div>
         )}

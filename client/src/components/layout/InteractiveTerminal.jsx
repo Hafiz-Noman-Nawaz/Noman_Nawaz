@@ -173,7 +173,7 @@ export const InteractiveTerminal = ({ isOpen, onClose, skills = [], projects = [
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-hidden">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-hidden">
         {/* Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -189,10 +189,10 @@ export const InteractiveTerminal = ({ isOpen, onClose, skills = [], projects = [
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.92, y: 30 }}
           transition={{ type: 'spring', damping: 25, stiffness: 350 }}
-          className="relative z-50 w-full max-w-3xl h-[520px] rounded-3xl bg-[#090a0f] border-2 border-primary/50 shadow-2xl overflow-hidden flex flex-col font-mono text-xs sm:text-sm"
+          className="relative z-50 w-full max-w-3xl h-[460px] sm:h-[520px] max-h-[88vh] rounded-3xl bg-[#090a0f] border-2 border-primary/50 shadow-2xl overflow-hidden flex flex-col font-mono text-xs sm:text-sm my-auto"
         >
           {/* Terminal Titlebar */}
-          <div className="flex items-center justify-between px-5 py-3.5 bg-[#12131a] border-b border-white/10 select-none">
+          <div className="flex items-center justify-between px-4 sm:px-5 py-3 sm:py-3.5 bg-[#12131a] border-b border-white/10 select-none">
             <div className="flex items-center gap-2">
               <span className="w-3 h-3 rounded-full bg-rose-500 cursor-pointer" onClick={onClose} />
               <span className="w-3 h-3 rounded-full bg-amber-500" />

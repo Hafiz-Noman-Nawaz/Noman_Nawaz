@@ -48,12 +48,12 @@ const SkillPill = ({ name }) => {
   const Icon = config.icon;
 
   return (
-    <div className="flex-shrink-0 flex items-center gap-3 px-5 py-3 mx-2 rounded-2xl glass hover:border-theme-glow transition-all duration-300 group hover:scale-105 shadow-md cursor-default select-none">
-      <div className={`p-2 rounded-xl bg-gradient-to-tr ${config.color} text-white shadow-sm flex items-center justify-center`}>
-        <Icon className="w-4 h-4" />
+    <div className="flex-shrink-0 flex items-center gap-2.5 sm:gap-3 px-3.5 sm:px-5 py-2 sm:py-3 mx-1.5 sm:mx-2 rounded-2xl glass hover:border-theme-glow transition-all duration-300 group hover:scale-105 shadow-md cursor-default select-none">
+      <div className={`p-1.5 sm:p-2 rounded-xl bg-gradient-to-tr ${config.color} text-white shadow-sm flex items-center justify-center`}>
+        <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
       </div>
       <div>
-        <span className="block font-display font-bold text-sm text-text group-hover:text-primary transition-colors whitespace-nowrap">
+        <span className="block font-display font-bold text-xs sm:text-sm text-text group-hover:text-primary transition-colors whitespace-nowrap">
           {name}
         </span>
       </div>
@@ -136,8 +136,8 @@ export const SkillsWheel = ({ skills = [] }) => {
         style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
       >
         {/* Edge fade gradient masks */}
-        <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-28 sm:w-48 bg-gradient-to-r from-bg to-transparent z-20" />
-        <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-28 sm:w-48 bg-gradient-to-l from-bg to-transparent z-20" />
+        <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-10 sm:w-40 bg-gradient-to-r from-bg to-transparent z-20" />
+        <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-10 sm:w-40 bg-gradient-to-l from-bg to-transparent z-20" />
 
         {/* Row 1 — Scrolls left */}
         <div className="overflow-hidden">

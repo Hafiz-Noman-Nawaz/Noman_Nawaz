@@ -8,7 +8,7 @@ export const CustomCursor = () => {
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    if (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) return;
+    if (window.innerWidth < 768 || (window.matchMedia && window.matchMedia('(pointer: coarse)').matches)) return;
 
     const onMove = (e) => {
       if (!e) return;

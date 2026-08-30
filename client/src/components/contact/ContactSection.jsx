@@ -58,8 +58,8 @@ export const ContactSection = ({ settings }) => {
       {/* Background ambient lighting */}
       <div className="absolute bottom-0 left-1/4 w-[600px] h-[400px] bg-primary/10 blur-[150px] pointer-events-none rounded-full" />
 
-      <div className="max-w-6xl mx-auto px-6 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto mb-16">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -90,15 +90,15 @@ export const ContactSection = ({ settings }) => {
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
           {/* Left Column: Direct Info Cards */}
-          <div className="lg:col-span-5 space-y-4">
+          <div className="lg:col-span-5 space-y-3 sm:space-y-4">
             {/* Email Card */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="p-6 rounded-3xl glass-card flex items-center justify-between group"
+              className="p-4 sm:p-6 rounded-3xl glass-card flex items-center justify-between group"
             >
               <div className="flex items-center gap-4">
                 <div className="p-3.5 rounded-2xl bg-primary/15 text-primary border border-primary/30 shadow-sm">
@@ -136,7 +136,7 @@ export const ContactSection = ({ settings }) => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="p-6 rounded-3xl glass-card flex items-center justify-between group"
+              className="p-4 sm:p-6 rounded-3xl glass-card flex items-center justify-between group"
             >
               <div className="flex items-center gap-4">
                 <div className="p-3.5 rounded-2xl bg-secondary/15 text-secondary border border-secondary/30 shadow-sm">
@@ -174,7 +174,7 @@ export const ContactSection = ({ settings }) => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="p-6 rounded-3xl glass-card flex items-center gap-4"
+              className="p-4 sm:p-6 rounded-3xl glass-card flex items-center gap-4"
             >
               <div className="p-3.5 rounded-2xl bg-accent/15 text-accent border border-accent/30 shadow-sm">
                 <MapPin className="w-6 h-6" />
@@ -195,7 +195,7 @@ export const ContactSection = ({ settings }) => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
-              className="p-6 rounded-3xl glass-card flex flex-wrap items-center justify-between gap-3"
+              className="p-4 sm:p-6 rounded-3xl glass-card flex flex-wrap items-center justify-between gap-3"
             >
               <span className="text-xs font-bold uppercase tracking-wider text-tertiary">
                 Social Profiles
@@ -222,7 +222,7 @@ export const ContactSection = ({ settings }) => {
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="lg:col-span-7 p-8 sm:p-10 rounded-3xl glass bg-bg-secondary/90 border-2 border-theme-glow shadow-2xl"
+            className="lg:col-span-7 p-6 sm:p-10 rounded-3xl glass bg-bg-secondary/90 border-2 border-theme-glow shadow-2xl"
           >
             {submitted ? (
               <div className="text-center py-12 space-y-4">

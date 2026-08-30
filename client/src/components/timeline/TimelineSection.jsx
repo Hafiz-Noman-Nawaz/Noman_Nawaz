@@ -39,7 +39,7 @@ const TimelineCard = ({ item, index }) => {
             style={style}
             onMouseMove={onMouseMove}
             onMouseLeave={onMouseLeave}
-            className="p-6 rounded-3xl glass-card border border-theme hover:border-theme-glow shadow-xl relative overflow-hidden"
+            className="p-4 sm:p-6 rounded-3xl glass-card border border-theme hover:border-theme-glow shadow-xl relative overflow-hidden"
           >
             {/* Dynamic Glare */}
             <div

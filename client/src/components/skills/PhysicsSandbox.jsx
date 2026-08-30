@@ -63,12 +63,12 @@ export const PhysicsSandbox = ({ skills = [] }) => {
     observer.observe(container);
 
     let width = (canvas.width = container.clientWidth || 800);
-    let height = (canvas.height = 420);
+    let height = (canvas.height = container.clientHeight || (window.innerWidth < 640 ? 360 : 420));
 
     const handleResize = () => {
       if (!canvas || !container) return;
       width = canvas.width = container.clientWidth || 800;
-      height = canvas.height = 420;
+      height = canvas.height = container.clientHeight || (window.innerWidth < 640 ? 360 : 420);
     };
 
     window.addEventListener('resize', handleResize, { passive: true });
@@ -326,12 +326,11 @@ export const PhysicsSandbox = ({ skills = [] }) => {
         {/* Physics Canvas Window */}
         <div
           ref={containerRef}
-          className="relative rounded-3xl glass bg-bg-secondary/80 border-2 border-theme-glow overflow-hidden shadow-2xl"
-          style={{ height: '420px' }}
+          className="relative rounded-3xl glass bg-bg-secondary/80 border-2 border-theme-glow overflow-hidden shadow-2xl h-[360px] sm:h-[420px]"
         >
           <canvas ref={canvasRef} className="w-full h-full cursor-grab active:cursor-grabbing block" />
 
-          <div className="pointer-events-none absolute bottom-4 right-5 px-3 py-1.5 rounded-xl glass border border-theme text-[11px] font-semibold text-tertiary">
+          <div className="pointer-events-none absolute bottom-3 right-4 sm:bottom-4 sm:right-5 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-xl glass border border-theme text-[10px] sm:text-[11px] font-semibold text-tertiary">
             💡 Drag & Fling {activeSkills.length} Skill Pills
           </div>
         </div>
