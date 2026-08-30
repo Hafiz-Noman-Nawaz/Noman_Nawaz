@@ -3,6 +3,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
 import HeroManager from './HeroManager';
+import SkillsManager from './SkillsManager';
 import ProjectsManager from './ProjectsManager';
 import SettingsManager from './SettingsManager';
 import MessagesManager from './MessagesManager';
@@ -12,6 +13,7 @@ import CertificatesManager from './CertificatesManager';
 import { getMessages } from '../../services/api';
 import {
   Sparkles,
+  Zap,
   FolderGit2,
   Settings,
   Mail,
@@ -22,7 +24,6 @@ import {
   ArrowUpRight,
   Sun,
   Moon,
-  Zap,
 } from 'lucide-react';
 
 export const Dashboard = () => {
@@ -67,6 +68,7 @@ export const Dashboard = () => {
 
   const navItems = [
     { id: 'hero', label: 'Hero Section', icon: Sparkles },
+    { id: 'skills', label: 'Skills & Tech Stack', icon: Zap },
     { id: 'projects', label: 'Projects & Work', icon: FolderGit2 },
     { id: 'testimonials', label: 'Testimonials', icon: MessageSquareQuote },
     { id: 'timeline', label: 'Career Timeline', icon: Clock },
@@ -147,6 +149,7 @@ export const Dashboard = () => {
       {/* Main Workspace */}
       <main className="flex-grow p-6 sm:p-10 max-w-5xl overflow-y-auto">
         {activeTab === 'hero' && <HeroManager />}
+        {activeTab === 'skills' && <SkillsManager />}
         {activeTab === 'projects' && <ProjectsManager />}
         {activeTab === 'testimonials' && <TestimonialsManager />}
         {activeTab === 'timeline' && <TimelineManager />}
