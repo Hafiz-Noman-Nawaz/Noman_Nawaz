@@ -159,7 +159,11 @@ export const Home = () => {
           <ResumeModal
             isOpen={isResumeOpen}
             onClose={() => setIsResumeOpen(false)}
+            heroData={heroData}
             settings={settings}
+            projects={projects}
+            timeline={timeline}
+            certificates={certificates}
           />
         )}
 
