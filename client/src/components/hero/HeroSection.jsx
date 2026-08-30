@@ -5,6 +5,9 @@ import { useTilt } from '../../hooks/useTilt';
 
 export const HeroSection = ({ heroData, onOpenEstimator }) => {
   const { ref, style, glare, onMouseMove, onMouseLeave } = useTilt(12, 1100, 1.02);
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  const photoUrl = heroData?.imageUrl;
 
   return (
     <section
@@ -158,18 +161,48 @@ export const HeroSection = ({ heroData, onOpenEstimator }) => {
                   }}
                 />
 
-                <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-bg-secondary">
-                  <img
-                    src={
-                      heroData?.imageUrl ||
-                      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80'
-                    }
-                    alt="Noman Nawaz"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    loading="eager"
-                  />
+                <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-bg-secondary flex items-center justify-center">
+                  {/* Cyber Holographic Loading Skeleton */}
+                  {(!photoUrl || !imageLoaded) && (
+                    <div className="absolute inset-0 flex flex-col items-center justify-center p-6 bg-surface/80 space-y-4">
+                      {/* Outer Orbital Rings */}
+                      <div className="relative w-16 h-16 flex items-center justify-center">
+                        <div className="absolute inset-0 rounded-full border-2 border-primary/30 border-t-primary animate-spin" />
+                        <div className="absolute inset-2 rounded-full border-2 border-secondary/40 border-b-secondary animate-spin [animation-duration:2.5s] [animation-direction:reverse]" />
+                        <Sparkles className="w-5 h-5 text-accent animate-pulse" />
+                      </div>
+
+                      <div className="text-center space-y-1">
+                        <span className="text-[11px] font-mono font-bold text-primary uppercase tracking-widest animate-pulse">
+                          Loading Matrix...
+                        </span>
+                        <p className="text-[10px] text-tertiary">
+                          Fetching Cloudinary Visuals
+                        </p>
+                      </div>
+
+                      {/* Shimmer bar */}
+                      <div className="w-28 h-1 bg-surface rounded-full overflow-hidden">
+                        <div className="w-full h-full bg-gradient-to-r from-primary via-secondary to-accent animate-pulse" />
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Real Uploaded Photo */}
+                  {photoUrl && (
+                    <img
+                      src={photoUrl}
+                      alt="Noman Nawaz"
+                      onLoad={() => setImageLoaded(true)}
+                      className={`w-full h-full object-cover group-hover:scale-105 transition-all duration-700 ${
+                        imageLoaded ? 'opacity-100' : 'opacity-0'
+                      }`}
+                      loading="eager"
+                    />
+                  )}
+
                   {/* Gradient vignette */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-bg/90 via-transparent to-transparent opacity-80" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-bg/90 via-transparent to-transparent opacity-80 pointer-events-none" />
 
                   {/* Glass Nameplate Badge */}
                   <div className="absolute bottom-3 left-3 right-3 p-3 rounded-xl glass border-theme backdrop-blur-xl">

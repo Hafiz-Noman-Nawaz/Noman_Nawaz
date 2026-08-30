@@ -63,9 +63,7 @@ export const ResumeModal = ({
     settings?.bio ||
     heroData?.subtitle ||
     'Specialized in architecting high-frequency reactive web applications, scalable REST/GraphQL backend systems, and silky 60fps micro-interaction physics with React, Node.js, and MongoDB.';
-  const photoUrl =
-    heroData?.imageUrl ||
-    'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80';
+  const photoUrl = heroData?.imageUrl || '';
   const email = settings?.email || 'nawaznoman7766@gmail.com';
   const phone = settings?.phone || '+92 300 1234567';
   const location = settings?.location || 'Pakistan — Available Worldwide / Remote';
@@ -162,8 +160,14 @@ export const ResumeModal = ({
             <div className="overflow-y-auto p-6 sm:p-10 space-y-8 print:p-6 print:space-y-6">
               {/* Top Identity & Photo Banner */}
               <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 border-b border-theme pb-8">
-                <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl overflow-hidden border-2 border-theme-glow shadow-xl flex-shrink-0 bg-surface">
-                  <img src={photoUrl} alt={name} className="w-full h-full object-cover" />
+                <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl overflow-hidden border-2 border-theme-glow shadow-xl flex-shrink-0 bg-surface flex items-center justify-center">
+                  {photoUrl ? (
+                    <img src={photoUrl} alt={name} className="w-full h-full object-cover" />
+                  ) : (
+                    <div className="w-full h-full bg-gradient-to-tr from-primary to-secondary flex items-center justify-center text-3xl font-display font-black text-white">
+                      {name[0] || 'N'}
+                    </div>
+                  )}
                 </div>
 
                 <div className="space-y-2 text-center sm:text-left flex-grow">
@@ -291,8 +295,14 @@ export const ResumeModal = ({
             <div className="overflow-y-auto p-6 sm:p-8 grid grid-cols-1 md:grid-cols-12 gap-8 print:p-4 print:gap-6">
               {/* Left Column Sidebar (4 cols) */}
               <div className="md:col-span-4 space-y-6 border-b md:border-b-0 md:border-r border-theme pb-6 md:pb-0 md:pr-6">
-                <div className="w-28 h-28 rounded-2xl overflow-hidden border-2 border-primary/40 shadow-lg bg-surface mx-auto md:mx-0">
-                  <img src={photoUrl} alt={name} className="w-full h-full object-cover" />
+                <div className="w-28 h-28 rounded-2xl overflow-hidden border-2 border-primary/40 shadow-lg bg-surface mx-auto md:mx-0 flex items-center justify-center">
+                  {photoUrl ? (
+                    <img src={photoUrl} alt={name} className="w-full h-full object-cover" />
+                  ) : (
+                    <div className="w-full h-full bg-gradient-to-tr from-primary to-secondary flex items-center justify-center text-3xl font-display font-black text-white">
+                      {name[0] || 'N'}
+                    </div>
+                  )}
                 </div>
 
                 <div className="space-y-1 text-center md:text-left">
