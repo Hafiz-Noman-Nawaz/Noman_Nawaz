@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { Star, MessageSquareQuote, Sparkles } from 'lucide-react';
+import { Star, MessageSquareQuote, Sparkles, Plus, CheckCircle2 } from 'lucide-react';
 import { useTilt } from '../../hooks/useTilt';
+import LeaveReviewModal from './LeaveReviewModal';
+import { useSound } from '../../context/SoundContext';
 
 const TestimonialCard = ({ item, index }) => {
   const { ref, style, glare, onMouseMove, onMouseLeave } = useTilt(10, 1000, 1.02);
@@ -45,13 +47,13 @@ const TestimonialCard = ({ item, index }) => {
         {/* Author info */}
         <div className="flex items-center gap-3 pt-6 mt-6 border-t border-theme">
           <img
-            src={item.avatar}
+            src={item.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80'}
             alt={item.name}
-            className="w-11 h-11 rounded-full object-cover border border-theme-glow"
+            className="w-11 h-11 rounded-full object-cover border border-theme-glow flex-shrink-0"
           />
-          <div>
-            <h4 className="text-sm font-display font-bold text-text">{item.name}</h4>
-            <p className="text-xs text-tertiary">
+          <div className="min-w-0">
+            <h4 className="text-sm font-display font-bold text-text truncate">{item.name}</h4>
+            <p className="text-xs text-tertiary truncate">
               {item.role} {item.company ? `· ${item.company}` : ''}
             </p>
           </div>
@@ -62,6 +64,10 @@ const TestimonialCard = ({ item, index }) => {
 };
 
 export const TestimonialsSection = ({ testimonials = [] }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [localTestimonials, setLocalTestimonials] = useState(testimonials);
+  const { playClick } = useSound();
+
   const fallbackTestimonials = [
     {
       name: 'Sarah Jenkins',
@@ -89,7 +95,15 @@ export const TestimonialsSection = ({ testimonials = [] }) => {
     },
   ];
 
-  const items = testimonials.length > 0 ? testimonials : fallbackTestimonials;
+  const displayList = localTestimonials.length > 0
+    ? localTestimonials
+    : testimonials.length > 0
+    ? testimonials
+    : fallbackTestimonials;
+
+  const handleNewTestimonial = (newReview) => {
+    setLocalTestimonials((prev) => [newReview, ...prev]);
+  };
 
   return (
     <section id="testimonials" className="relative py-28 z-10 overflow-hidden">
@@ -97,44 +111,71 @@ export const TestimonialsSection = ({ testimonials = [] }) => {
       <div className="absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[350px] bg-primary/10 blur-[140px] pointer-events-none rounded-full" />
 
       <div className="max-w-6xl mx-auto px-6 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass border-theme-glow text-xs font-bold text-secondary mb-3 shadow-sm"
-          >
-            <MessageSquareQuote className="w-3.5 h-3.5" />
-            <span>Social Proof & Endorsements</span>
-          </motion.div>
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-16">
+          <div className="max-w-xl">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass border-theme-glow text-xs font-bold text-secondary mb-3 shadow-sm"
+            >
+              <MessageSquareQuote className="w-3.5 h-3.5" />
+              <span>Social Proof & Endorsements</span>
+            </motion.div>
 
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="text-3xl sm:text-5xl font-display font-black tracking-tight text-text"
+            >
+              Client & Peer Endorsements
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="mt-3 text-secondary text-sm sm:text-base font-sans"
+            >
+              Recommendations from founders, teammates, and clients. Have we worked together? Feel free to leave a review below!
+            </motion.p>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-3xl sm:text-5xl font-display font-black tracking-tight text-text"
+            className="flex-shrink-0"
           >
-            Client & Collaborator Feedback
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="mt-3 text-secondary text-sm sm:text-base font-sans"
-          >
-            What founders, engineering leaders, and product directors say about working together.
-          </motion.p>
+            <button
+              onClick={() => {
+                playClick();
+                setIsModalOpen(true);
+              }}
+              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-primary text-white font-bold text-xs shadow-lg shadow-primary/30 hover:scale-105 hover:shadow-primary/50 transition-all cursor-pointer"
+            >
+              <Sparkles className="w-4 h-4" />
+              <span>Leave a Recommendation</span>
+            </button>
+          </motion.div>
         </div>
 
         {/* Grid of 3D Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {items.map((item, idx) => (
+          {displayList.map((item, idx) => (
             <TestimonialCard key={item._id || idx} item={item} index={idx} />
           ))}
         </div>
       </div>
+
+      {/* Leave Review Modal */}
+      <LeaveReviewModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSuccess={handleNewTestimonial}
+      />
     </section>
   );
 };

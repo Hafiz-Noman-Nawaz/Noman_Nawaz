@@ -72,6 +72,10 @@ export const deleteMessage = (id) => API.delete(`/messages/${id}`);
 
 // Testimonials Endpoints
 export const getTestimonials = () => API.get('/testimonials');
+export const submitPublicTestimonial = (formData) =>
+  API.post('/testimonials/public', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
 export const createTestimonial = (formData) =>
   API.post('/testimonials', formData, {
     headers: { 'Content-Type': 'multipart/form-data' },

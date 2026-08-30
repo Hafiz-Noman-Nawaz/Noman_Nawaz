@@ -33,6 +33,10 @@ const testimonialSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    approved: {
+      type: Boolean,
+      default: true,
+    },
   },
   { timestamps: true }
 );
