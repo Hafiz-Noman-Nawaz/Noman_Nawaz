@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight, Sparkles, Code2, Layers, Cpu } from 'lucide-react';
 import { useTilt } from '../../hooks/useTilt';
