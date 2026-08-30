@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 import { ArrowRight, Sparkles, Code2, Layers, Cpu } from 'lucide-react';
 import { useTilt } from '../../hooks/useTilt';
 
-export const HeroSection = ({ heroData }) => {
+export const HeroSection = ({ heroData, onOpenEstimator }) => {
   const { ref, style, glare, onMouseMove, onMouseLeave } = useTilt(12, 1100, 1.02);
 
   return (
@@ -94,19 +94,19 @@ export const HeroSection = ({ heroData }) => {
             >
               <a
                 href="#projects"
-                className="w-full sm:w-auto group relative inline-flex items-center justify-center gap-3 px-8 py-3.5 sm:py-4 rounded-2xl bg-primary text-white font-bold text-xs sm:text-sm shadow-lg shadow-primary/30 hover:scale-105 transition-all duration-300"
+                className="w-full sm:w-auto group relative inline-flex items-center justify-center gap-3 px-7 py-3.5 sm:py-4 rounded-2xl bg-primary text-white font-bold text-xs sm:text-sm shadow-lg shadow-primary/30 hover:scale-105 transition-all duration-300"
               >
                 <span>{heroData?.ctaText || 'Explore Projects'}</span>
                 <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
               </a>
 
-              <a
-                href="#contact"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 sm:py-4 rounded-2xl glass hover:bg-surface-hover hover:border-theme-glow text-text font-bold text-xs sm:text-sm transition-all duration-300 hover:scale-105"
+              <button
+                onClick={onOpenEstimator}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 sm:py-4 rounded-2xl glass hover:bg-surface-hover hover:border-theme-glow text-text font-bold text-xs sm:text-sm transition-all duration-300 hover:scale-105"
               >
-                <span>Get In Touch</span>
-                <Sparkles className="w-4 h-4 text-primary" />
-              </a>
+                <span>Scope Estimator</span>
+                <Sparkles className="w-4 h-4 text-accent" />
+              </button>
             </motion.div>
 
             {/* Quick Metrics / Tech Badges */}

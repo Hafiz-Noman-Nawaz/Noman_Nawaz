@@ -56,14 +56,26 @@ This web application represents a **modern, bespoke full-stack engineering solut
 - 3D Holographic tilt cards featuring metallic glare reflections and verified credential links (AWS, Meta, MongoDB).
 
 ### 7. ⚙️ Production Headless CMS Dashboard (`/admin`)
-- Secure JWT-authenticated administration portal featuring 7 management panels:
-  1. **Hero Section Manager** (Image uploads to Cloudinary, headline, tagline, CTAs).
-  2. **Projects & Case Studies Manager** (Multi-image galleries, video previews, metrics, Markdown editor).
-  3. **Testimonials Manager** (Client endorsements, star ratings, avatar uploads).
-  4. **Career Timeline Manager** (Work milestones, degrees, order re-arrangement).
-  5. **Certifications & Accreditations Manager** (Verified badges, credential URLs).
-  6. **Inquiries Inbox** (Real-time contact messages with unread counters and deletion).
-  7. **Global Settings & Live Status** (Socials, skill tags, live status widget, admin password security).
+- Secure JWT-authenticated administration portal featuring 8 dedicated management panels (Hero, Skills, Projects, Testimonials, Timeline, Certifications, Inbox, Settings).
+
+### 8. 🧮 Interactive Project Scope & Architecture Estimator
+- Multi-step interactive estimator modal allowing founders and clients to select project archetypes, core modules (Auth, Payments, Real-time WebSockets, Database), and desired velocity.
+- Computes estimated delivery timeline and generates a technical architectural blueprint that pre-fills into the Contact inquiry form in 1-click.
+
+### 9. 🗂️ Dynamic Project Category Filter Tabs
+- Real-time animated filtering (`All Projects`, `Full-Stack MERN`, `AI & Data Systems`, `3D Motion & UI`, `Next.js & Cloud`) powered by Motion layout spring physics.
+
+### 10. 📊 Live GitHub Activity Cadence & Heatmap
+- Direct integration with GitHub Public API tracking daily commit frequency, active repositories, stars, and language distribution.
+
+### 11. 💻 Interactive Live Code Execution Playground
+- Built-in developer IDE tabs (`VerletPhysicsEngine.js`, `JWTMiddleware.js`, `CloudinaryStreamPipeline.js`, `MongoAggregateMetrics.js`) with syntax highlighting, code copying, and a simulated **"▶ Run Snippet"** real-time terminal output stream.
+
+### 12. 🧭 Minimalist Desktop Scroll Progress HUD
+- Vertical HUD tracker showing real-time scroll completion and active section beacon with 1-click smooth jump navigation.
+
+### 13. 🌐 Complete SEO OpenGraph & Google JSON-LD Schema
+- Full Open Graph rich preview cards, Twitter Cards, and schema.org `Person` structured data for top Google ranking.
 
 ---
 

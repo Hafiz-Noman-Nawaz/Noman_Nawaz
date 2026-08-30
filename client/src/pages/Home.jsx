@@ -5,18 +5,22 @@ import HeroSection from '../components/hero/HeroSection';
 import SkillsWheel from '../components/skills/SkillsWheel';
 import PhysicsSandbox from '../components/skills/PhysicsSandbox';
 import ProjectsGallery from '../components/projects/ProjectsGallery';
+import CodePlaygroundSection from '../components/code/CodePlaygroundSection';
+import GitHubActivitySection from '../components/github/GitHubActivitySection';
 import TimelineSection from '../components/timeline/TimelineSection';
 import CertificatesSection from '../components/certificates/CertificatesSection';
 import TestimonialsSection from '../components/testimonials/TestimonialsSection';
 import ContactSection from '../components/contact/ContactSection';
 import Footer from '../components/layout/Footer';
 import StatusWidget from '../components/layout/StatusWidget';
+import ScrollProgressHUD from '../components/layout/ScrollProgressHUD';
 import { getHero, getProjects, getSettings, getTestimonials, getTimeline, getCertificates } from '../services/api';
 
 // Lazy load modals for maximum initial load performance & minimal bundle weight
 const CommandPalette = lazy(() => import('../components/layout/CommandPalette'));
 const ResumeModal = lazy(() => import('../components/layout/ResumeModal'));
 const InteractiveTerminal = lazy(() => import('../components/layout/InteractiveTerminal'));
+const ProjectEstimatorModal = lazy(() => import('../components/layout/ProjectEstimatorModal'));
 
 export const Home = () => {
   const [heroData, setHeroData] = useState(null);
@@ -30,6 +34,8 @@ export const Home = () => {
   const [isCommandOpen, setIsCommandOpen] = useState(false);
   const [isResumeOpen, setIsResumeOpen] = useState(false);
   const [isTerminalOpen, setIsTerminalOpen] = useState(false);
+  const [isEstimatorOpen, setIsEstimatorOpen] = useState(false);
+  const [contactPrefill, setContactPrefill] = useState('');
 
   useEffect(() => {
     const fetchPortfolioData = async () => {
@@ -90,6 +96,9 @@ export const Home = () => {
       {/* 3D Interactive Particle Background */}
       <InteractiveBackground />
 
+      {/* Desktop Scroll Progress & Navigation HUD */}
+      <ScrollProgressHUD />
+
       {/* Navigation Header */}
       <Navbar
         onOpenCommand={() => setIsCommandOpen(true)}
@@ -99,14 +108,22 @@ export const Home = () => {
 
       {/* Main Content Sections */}
       <main className="relative z-10 space-y-4">
-        <HeroSection heroData={heroData} />
+        <HeroSection
+          heroData={heroData}
+          onOpenEstimator={() => setIsEstimatorOpen(true)}
+        />
         <SkillsWheel skills={settings?.skills || []} />
         <PhysicsSandbox skills={settings?.skills || []} />
         <ProjectsGallery projects={projects} />
+        <CodePlaygroundSection />
+        <GitHubActivitySection />
         <TimelineSection milestones={timeline} />
         <CertificatesSection certificates={certificates} />
         <TestimonialsSection testimonials={testimonials} />
-        <ContactSection settings={settings} />
+        <ContactSection
+          settings={settings}
+          preFillMessage={contactPrefill}
+        />
       </main>
 
       {/* Footer */}
@@ -143,6 +160,14 @@ export const Home = () => {
             isOpen={isResumeOpen}
             onClose={() => setIsResumeOpen(false)}
             settings={settings}
+          />
+        )}
+
+        {isEstimatorOpen && (
+          <ProjectEstimatorModal
+            isOpen={isEstimatorOpen}
+            onClose={() => setIsEstimatorOpen(false)}
+            onPreFillContact={(msg) => setContactPrefill(msg)}
           />
         )}
       </Suspense>

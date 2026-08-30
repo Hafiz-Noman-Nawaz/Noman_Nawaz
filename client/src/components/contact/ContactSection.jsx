@@ -5,13 +5,19 @@ import confetti from 'canvas-confetti';
 import { submitMessage } from '../../services/api';
 import { useSound } from '../../context/SoundContext';
 
-export const ContactSection = ({ settings }) => {
+export const ContactSection = ({ settings, preFillMessage = '' }) => {
   const [copied, setCopied] = useState(null);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const { playClick, playWhoosh } = useSound();
+
+  React.useEffect(() => {
+    if (preFillMessage) {
+      setFormData((prev) => ({ ...prev, message: preFillMessage }));
+    }
+  }, [preFillMessage]);
 
   const handleCopy = (text, id) => {
     playClick();
