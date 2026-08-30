@@ -24,8 +24,14 @@ app.use(
   cors({
     origin: (origin, callback) => {
       // Allow any origin in dev or if origin is undefined (e.g. mobile/Postman/curl)
-      // or matches configured client url or vercel deployments
-      if (!origin || origin === process.env.CLIENT_URL || origin.includes('localhost') || origin.includes('vercel.app')) {
+      // or matches configured client url, custom domain, or vercel deployments
+      if (
+        !origin ||
+        origin === process.env.CLIENT_URL ||
+        origin.includes('nouman-nawaz.dev') ||
+        origin.includes('localhost') ||
+        origin.includes('vercel.app')
+      ) {
         callback(null, true);
       } else {
         callback(null, true); // Allow all for seamless portfolio accessibility
@@ -39,7 +45,7 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 // Base API route & Health check
-app.get('/api/health', (req, res) => {
+app.get(['/', '/api', '/api/health', '/health'], (req, res) => {
   res.json({
     status: 'ok',
     message: 'Noman Nawaz Portfolio API is active and healthy ⚡',
@@ -47,15 +53,30 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Mount Routes
+// Mount Routes (with and without /api prefix for maximum reliability)
 app.use('/api/auth', authRoutes);
+app.use('/auth', authRoutes);
+
 app.use('/api/hero', heroRoutes);
+app.use('/hero', heroRoutes);
+
 app.use('/api/projects', projectRoutes);
+app.use('/projects', projectRoutes);
+
 app.use('/api/settings', settingsRoutes);
+app.use('/settings', settingsRoutes);
+
 app.use('/api/messages', messagesRoutes);
+app.use('/messages', messagesRoutes);
+
 app.use('/api/testimonials', testimonialsRoutes);
+app.use('/testimonials', testimonialsRoutes);
+
 app.use('/api/timeline', timelineRoutes);
+app.use('/timeline', timelineRoutes);
+
 app.use('/api/certificates', certificatesRoutes);
+app.use('/certificates', certificatesRoutes);
 
 // Global Error Handler
 app.use((err, req, res, next) => {
