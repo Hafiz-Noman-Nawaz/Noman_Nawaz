@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Star, MessageSquareQuote, Sparkles, Plus, CheckCircle2 } from 'lucide-react';
 import { useTilt } from '../../hooks/useTilt';
@@ -68,42 +68,16 @@ export const TestimonialsSection = ({ testimonials = [] }) => {
   const [localTestimonials, setLocalTestimonials] = useState(testimonials);
   const { playClick } = useSound();
 
-  const fallbackTestimonials = [
-    {
-      name: 'Sarah Jenkins',
-      role: 'Head of Product',
-      company: 'HyperScale AI',
-      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80',
-      content: 'Noman is one of the rare full-stack developers who truly understands the nuance of motion design and performance. He turned our complex dashboard into a work of art that our customers love.',
-      rating: 5,
-    },
-    {
-      name: 'David Chen',
-      role: 'CTO & Co-Founder',
-      company: 'AuraPay Global',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
-      content: 'Working with Noman was an absolute pleasure. His MERN stack mastery, attention to code quality, and proactive communication made our product launch effortless and fast.',
-      rating: 5,
-    },
-    {
-      name: 'Elena Rostova',
-      role: 'Design Director',
-      company: 'Vortex Interactive',
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
-      content: 'High-contrast typography, silky smooth micro-interactions, and pristine backend architecture. Noman delivers top-tier engineering every single time.',
-      rating: 5,
-    },
-  ];
-
-  const displayList = localTestimonials.length > 0
-    ? localTestimonials
-    : testimonials.length > 0
-    ? testimonials
-    : fallbackTestimonials;
+  // Keep local list synchronized with CMS API data
+  useEffect(() => {
+    setLocalTestimonials(testimonials);
+  }, [testimonials]);
 
   const handleNewTestimonial = (newReview) => {
     setLocalTestimonials((prev) => [newReview, ...prev]);
   };
+
+  const displayList = localTestimonials || [];
 
   return (
     <section id="testimonials" className="relative py-28 z-10 overflow-hidden">
@@ -162,12 +136,24 @@ export const TestimonialsSection = ({ testimonials = [] }) => {
           </motion.div>
         </div>
 
-        {/* Grid of 3D Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {displayList.map((item, idx) => (
-            <TestimonialCard key={item._id || idx} item={item} index={idx} />
-          ))}
-        </div>
+        {/* Display Testimonials or Clean Invitation State */}
+        {displayList.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {displayList.map((item, idx) => (
+              <TestimonialCard key={item._id || idx} item={item} index={idx} />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-16 px-6 glass rounded-3xl border border-theme max-w-xl mx-auto space-y-4">
+            <div className="w-12 h-12 rounded-2xl bg-primary/10 border border-primary/30 flex items-center justify-center mx-auto text-primary">
+              <Star className="w-6 h-6 fill-primary" />
+            </div>
+            <h3 className="text-lg font-display font-bold text-text">Be the First to Endorse</h3>
+            <p className="text-xs sm:text-sm text-secondary font-sans">
+              Have we built a project or collaborated together? Click the button above to leave a recommendation.
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Leave Review Modal */}
