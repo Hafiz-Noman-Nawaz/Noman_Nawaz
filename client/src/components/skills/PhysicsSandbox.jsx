@@ -34,7 +34,6 @@ export const PhysicsSandbox = ({ skills = [] }) => {
     'WebSockets', 'JWT Auth', 'Cloudinary', 'Three.js'
   ];
 
-  // Render ALL skills directly from the CMS (no slicing)
   const activeSkills = useMemo(() => {
     return skills && skills.length > 0 ? skills : fallback;
   }, [skills]);
@@ -63,40 +62,46 @@ export const PhysicsSandbox = ({ skills = [] }) => {
     observer.observe(container);
 
     let width = (canvas.width = container.clientWidth || 800);
-    let height = (canvas.height = container.clientHeight || (window.innerWidth < 640 ? 360 : 420));
+    const isMobile = width < 640;
+    let height = (canvas.height = container.clientHeight || (isMobile ? 380 : 420));
 
     const handleResize = () => {
       if (!canvas || !container) return;
       width = canvas.width = container.clientWidth || 800;
-      height = canvas.height = container.clientHeight || (window.innerWidth < 640 ? 360 : 420);
+      height = canvas.height = container.clientHeight || (width < 640 ? 380 : 420);
     };
 
     window.addEventListener('resize', handleResize, { passive: true });
 
     // Color theme config
     const isDark = theme !== 'light';
-    const pillBg = isDark ? 'rgba(24, 24, 38, 0.92)' : 'rgba(255, 255, 255, 0.95)';
+    const pillBg = isDark ? 'rgba(20, 20, 32, 0.95)' : 'rgba(255, 255, 255, 0.96)';
     const pillBorder = isDark ? 'rgba(139, 92, 246, 0.45)' : 'rgba(79, 70, 229, 0.35)';
     const pillText = isDark ? '#ffffff' : '#09090b';
 
-    const cols = Math.max(Math.floor(width / 130), 4);
+    // Responsive column distribution
+    const colWidth = isMobile ? 95 : 130;
+    const cols = Math.max(Math.floor(width / colWidth), 2);
 
-    // Create Physics Body for EVERY skill in the active list
+    // Create Physics Body for skills with compact responsive sizing
     const bodies = activeSkills.map((skill, index) => {
       const textLen = (skill || '').length;
-      const w = Math.max(textLen * 9.2 + 28, 80);
-      const h = 34;
+      const w = isMobile
+        ? Math.max(textLen * 7.0 + 20, 58)
+        : Math.max(textLen * 9.0 + 26, 80);
+      const h = isMobile ? 28 : 34;
       const radius = h / 2;
 
       const col = index % cols;
       const row = Math.floor(index / cols);
+      const colSpacing = width / cols;
 
       return {
         text: skill || 'Skill',
-        x: col * (width / cols) + 45 + (Math.random() - 0.5) * 20,
-        y: (row % 6) * 50 + 40 + (Math.random() - 0.5) * 15,
-        vx: (Math.random() - 0.5) * 1.5,
-        vy: Math.random() * 1.2,
+        x: col * colSpacing + colSpacing / 2 + (Math.random() - 0.5) * 15,
+        y: row * (isMobile ? 34 : 44) + 30 + (Math.random() - 0.5) * 10,
+        vx: (Math.random() - 0.5) * 1.2,
+        vy: Math.random() * 0.8,
         w,
         h,
         radius,
@@ -168,9 +173,9 @@ export const PhysicsSandbox = ({ skills = [] }) => {
     window.addEventListener('touchmove', onMouseMove, { passive: true });
     window.addEventListener('touchend', onMouseUp);
 
-    const gravity = gravityActive ? 0.32 : 0;
+    const gravity = gravityActive ? (isMobile ? 0.28 : 0.32) : 0;
     const friction = 0.985;
-    const bounce = 0.6;
+    const bounce = 0.55;
 
     const render = () => {
       if (!isIntersecting) {
@@ -215,8 +220,8 @@ export const PhysicsSandbox = ({ skills = [] }) => {
           const b2 = bodies[j];
           const dx = b2.x - b.x;
           const dy = b2.y - b.y;
-          const minDistX = (b.w + b2.w) / 2.1;
-          const minDistY = (b.h + b2.h) / 2;
+          const minDistX = (b.w + b2.w) / 2.05;
+          const minDistY = (b.h + b2.h) / 2.0;
 
           if (Math.abs(dx) < minDistX && Math.abs(dy) < minDistY) {
             const overlapX = minDistX - Math.abs(dx);
@@ -255,16 +260,18 @@ export const PhysicsSandbox = ({ skills = [] }) => {
 
         // Accent dot
         ctx.beginPath();
-        ctx.arc(-halfW + 12, 0, 3.5, 0, Math.PI * 2);
+        const dotX = -halfW + (isMobile ? 8 : 11);
+        ctx.arc(dotX, 0, isMobile ? 2.5 : 3.5, 0, Math.PI * 2);
         ctx.fillStyle = b.color;
         ctx.fill();
 
         // Text
-        ctx.font = '600 12px Satoshi, sans-serif';
+        ctx.font = isMobile ? '600 10.5px Satoshi, sans-serif' : '600 12px Satoshi, sans-serif';
         ctx.fillStyle = pillText;
         ctx.textAlign = 'left';
         ctx.textBaseline = 'middle';
-        ctx.fillText(b.text, -halfW + 21, 0.5);
+        const textX = -halfW + (isMobile ? 15 : 20);
+        ctx.fillText(b.text, textX, 0.5);
 
         ctx.restore();
       }
@@ -289,7 +296,7 @@ export const PhysicsSandbox = ({ skills = [] }) => {
 
   return (
     <section className="relative py-16 z-10 overflow-hidden">
-      <div className="max-w-6xl mx-auto px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header & Controls */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
           <div>
@@ -301,7 +308,7 @@ export const PhysicsSandbox = ({ skills = [] }) => {
               Skill Gravity Playground
             </h3>
             <p className="text-secondary text-xs sm:text-sm mt-1 font-sans">
-              Grab, fling, bounce, or toss all {activeSkills.length} skills around the canvas with real physics collisions.
+              Grab, fling, bounce, or toss skills around the canvas with real 2D physics collisions.
             </p>
           </div>
 
@@ -326,12 +333,12 @@ export const PhysicsSandbox = ({ skills = [] }) => {
         {/* Physics Canvas Window */}
         <div
           ref={containerRef}
-          className="relative rounded-3xl glass bg-bg-secondary/80 border-2 border-theme-glow overflow-hidden shadow-2xl h-[360px] sm:h-[420px]"
+          className="relative rounded-3xl glass bg-bg-secondary/80 border-2 border-theme-glow overflow-hidden shadow-2xl h-[380px] sm:h-[420px]"
         >
-          <canvas ref={canvasRef} className="w-full h-full cursor-grab active:cursor-grabbing block" />
+          <canvas ref={canvasRef} className="w-full h-full cursor-grab active:cursor-grabbing block touch-none" />
 
-          <div className="pointer-events-none absolute bottom-3 right-4 sm:bottom-4 sm:right-5 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-xl glass border border-theme text-[10px] sm:text-[11px] font-semibold text-tertiary">
-            💡 Drag & Fling {activeSkills.length} Skill Pills
+          <div className="pointer-events-none absolute bottom-3 right-3 sm:bottom-4 sm:right-5 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-xl glass border border-theme text-[10px] sm:text-[11px] font-semibold text-tertiary">
+            💡 Touch & Fling Pills
           </div>
         </div>
       </div>
