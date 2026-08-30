@@ -1,6 +1,6 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useMemo } from 'react';
 import { motion } from 'motion/react';
-import { Move, Play, Pause } from 'lucide-react';
+import { Move, Play, Pause, Sparkles } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 import { useSound } from '../../context/SoundContext';
 
@@ -25,7 +25,7 @@ export const PhysicsSandbox = ({ skills = [] }) => {
   const { playClick, playHover } = useSound();
   const [gravityActive, setGravityActive] = useState(true);
 
-  // Fallback skills
+  // Fallback skills if none provided
   const fallback = [
     'React 19', 'Node.js', 'Express', 'MongoDB', 'TypeScript',
     'Tailwind', 'Next.js', 'PostgreSQL', 'Redis', 'GraphQL',
@@ -34,7 +34,14 @@ export const PhysicsSandbox = ({ skills = [] }) => {
     'WebSockets', 'JWT Auth', 'Cloudinary', 'Three.js'
   ];
 
-  const activeSkills = (skills && skills.length > 0 ? skills : fallback).slice(0, 22);
+  // Render ALL skills directly from the CMS (no slicing)
+  const activeSkills = useMemo(() => {
+    return skills && skills.length > 0 ? skills : fallback;
+  }, [skills]);
+
+  const skillsKey = useMemo(() => {
+    return activeSkills.join('|');
+  }, [activeSkills]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -46,22 +53,22 @@ export const PhysicsSandbox = ({ skills = [] }) => {
     let animationFrameId;
     let isIntersecting = true;
 
-    // Viewport Intersection Observer: Only run physics when sandbox is visible!
+    // Viewport Intersection Observer: Only run physics when sandbox is visible
     const observer = new IntersectionObserver(
       ([entry]) => {
         isIntersecting = entry.isIntersecting;
       },
-      { threshold: 0.1 }
+      { threshold: 0.05 }
     );
     observer.observe(container);
 
     let width = (canvas.width = container.clientWidth || 800);
-    let height = (canvas.height = 400);
+    let height = (canvas.height = 420);
 
     const handleResize = () => {
       if (!canvas || !container) return;
       width = canvas.width = container.clientWidth || 800;
-      height = canvas.height = 400;
+      height = canvas.height = 420;
     };
 
     window.addEventListener('resize', handleResize, { passive: true });
@@ -72,17 +79,22 @@ export const PhysicsSandbox = ({ skills = [] }) => {
     const pillBorder = isDark ? 'rgba(139, 92, 246, 0.45)' : 'rgba(79, 70, 229, 0.35)';
     const pillText = isDark ? '#ffffff' : '#09090b';
 
-    // Create Physics Body for each skill
+    const cols = Math.max(Math.floor(width / 130), 4);
+
+    // Create Physics Body for EVERY skill in the active list
     const bodies = activeSkills.map((skill, index) => {
       const textLen = (skill || '').length;
-      const w = Math.max(textLen * 9.2 + 30, 85);
-      const h = 36;
+      const w = Math.max(textLen * 9.2 + 28, 80);
+      const h = 34;
       const radius = h / 2;
+
+      const col = index % cols;
+      const row = Math.floor(index / cols);
 
       return {
         text: skill || 'Skill',
-        x: (index % 5) * (width / 5) + 40 + Math.random() * 20,
-        y: Math.floor(index / 5) * 55 + 50 + Math.random() * 15,
+        x: col * (width / cols) + 45 + (Math.random() - 0.5) * 20,
+        y: (row % 6) * 50 + 40 + (Math.random() - 0.5) * 15,
         vx: (Math.random() - 0.5) * 1.5,
         vy: Math.random() * 1.2,
         w,
@@ -136,8 +148,8 @@ export const PhysicsSandbox = ({ skills = [] }) => {
       const { x, y } = getMousePos(e);
       draggedBody.x = x - dragOffsetX;
       draggedBody.y = y - dragOffsetY;
-      draggedBody.vx = (x - lastMouseX) * 0.7;
-      draggedBody.vy = (y - lastMouseY) * 0.7;
+      draggedBody.vx = (x - lastMouseX) * 0.75;
+      draggedBody.vy = (y - lastMouseY) * 0.75;
       lastMouseX = x;
       lastMouseY = y;
     };
@@ -156,13 +168,12 @@ export const PhysicsSandbox = ({ skills = [] }) => {
     window.addEventListener('touchmove', onMouseMove, { passive: true });
     window.addEventListener('touchend', onMouseUp);
 
-    const gravity = gravityActive ? 0.3 : 0;
+    const gravity = gravityActive ? 0.32 : 0;
     const friction = 0.985;
     const bounce = 0.6;
 
     const render = () => {
       if (!isIntersecting) {
-        // Paused when not visible in viewport to save 100% GPU/CPU
         animationFrameId = requestAnimationFrame(render);
         return;
       }
@@ -229,7 +240,7 @@ export const PhysicsSandbox = ({ skills = [] }) => {
           }
         }
 
-        // Draw Rounded Pill (No heavy canvas shadowBlur)
+        // Draw Rounded Pill
         ctx.save();
         ctx.translate(b.x, b.y);
 
@@ -244,7 +255,7 @@ export const PhysicsSandbox = ({ skills = [] }) => {
 
         // Accent dot
         ctx.beginPath();
-        ctx.arc(-halfW + 13, 0, 3.5, 0, Math.PI * 2);
+        ctx.arc(-halfW + 12, 0, 3.5, 0, Math.PI * 2);
         ctx.fillStyle = b.color;
         ctx.fill();
 
@@ -253,7 +264,7 @@ export const PhysicsSandbox = ({ skills = [] }) => {
         ctx.fillStyle = pillText;
         ctx.textAlign = 'left';
         ctx.textBaseline = 'middle';
-        ctx.fillText(b.text, -halfW + 22, 0.5);
+        ctx.fillText(b.text, -halfW + 21, 0.5);
 
         ctx.restore();
       }
@@ -274,7 +285,7 @@ export const PhysicsSandbox = ({ skills = [] }) => {
       window.removeEventListener('touchend', onMouseUp);
       cancelAnimationFrame(animationFrameId);
     };
-  }, [skills, gravityActive, theme]);
+  }, [skillsKey, gravityActive, theme]);
 
   return (
     <section className="relative py-16 z-10 overflow-hidden">
@@ -290,7 +301,7 @@ export const PhysicsSandbox = ({ skills = [] }) => {
               Skill Gravity Playground
             </h3>
             <p className="text-secondary text-xs sm:text-sm mt-1 font-sans">
-              Grab, fling, bounce, or toss skills around the canvas with real physics collisions.
+              Grab, fling, bounce, or toss all {activeSkills.length} skills around the canvas with real physics collisions.
             </p>
           </div>
 
@@ -316,12 +327,12 @@ export const PhysicsSandbox = ({ skills = [] }) => {
         <div
           ref={containerRef}
           className="relative rounded-3xl glass bg-bg-secondary/80 border-2 border-theme-glow overflow-hidden shadow-2xl"
-          style={{ height: '400px' }}
+          style={{ height: '420px' }}
         >
           <canvas ref={canvasRef} className="w-full h-full cursor-grab active:cursor-grabbing block" />
 
           <div className="pointer-events-none absolute bottom-4 right-5 px-3 py-1.5 rounded-xl glass border border-theme text-[11px] font-semibold text-tertiary">
-            💡 Drag & Fling Skill Pills
+            💡 Drag & Fling {activeSkills.length} Skill Pills
           </div>
         </div>
       </div>
