@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import { useLanguage } from '../../context/LanguageContext';
+import { useSound } from '../../context/SoundContext';
 import {
   Globe, Server, Database, Code, Layout, Zap, Cpu, Layers,
   Terminal, ShieldCheck, Cloud, Smartphone, GitBranch, Palette,
