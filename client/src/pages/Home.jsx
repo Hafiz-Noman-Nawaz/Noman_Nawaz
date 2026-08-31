@@ -188,6 +188,7 @@ export const Home = () => {
           <HireMeModal
             isOpen={isHireMeOpen}
             onClose={() => setIsHireMeOpen(false)}
+            settings={settings}
           />
         )}
       </Suspense>

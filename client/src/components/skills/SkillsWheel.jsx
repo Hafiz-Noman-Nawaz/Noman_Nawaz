@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { motion } from 'motion/react';
+import { useLanguage } from '../../context/LanguageContext';
 import {
   Globe, Server, Database, Code, Layout, Zap, Cpu, Layers,
   Terminal, ShieldCheck, Cloud, Smartphone, GitBranch, Palette,
@@ -62,24 +63,40 @@ const SkillPill = ({ name }) => {
 };
 
 export const SkillsWheel = ({ skills = [] }) => {
+  const { t } = useLanguage();
   const containerRef = useRef(null);
+  const isDown = useRef(false);
+  const startX = useRef(0);
+  const scrollLeft = useRef(0);
   const [isDragging, setIsDragging] = useState(false);
+  const { playHover } = useSound();
 
-  const handleMouseDown = () => setIsDragging(true);
-  const handleMouseUp = () => setIsDragging(false);
-  const handleMouseLeave = () => setIsDragging(false);
-
-  // Fallback if no skills from CMS
-  const defaultSkills = [
-    'React 19', 'Node.js', 'Express.js', 'MongoDB', 'TypeScript',
+  const activeSkills = skills && skills.length > 0 ? skills : [
+    'React 19', 'Node.js', 'Express', 'MongoDB', 'TypeScript',
     'Tailwind CSS', 'Next.js', 'PostgreSQL', 'Redis', 'GraphQL',
-    'Docker', 'AWS Cloud', 'Prisma ORM', 'Vite', 'REST APIs',
-    'Framer Motion', 'GSAP', 'Figma', 'Git & GitHub', 'CI/CD Pipelines',
-    'WebSockets', 'JWT Auth', 'Cloudinary', 'Mongoose', 'Zustand',
-    'React Query', 'Vercel', 'Python', 'Canvas 3D', 'Three.js'
+    'Docker', 'AWS Cloud', 'Prisma', 'Vite', 'REST APIs',
+    'Motion', 'GSAP', 'Figma', 'Git', 'CI/CD',
+    'WebSockets', 'JWT Auth', 'Cloudinary', 'Mongoose',
   ];
 
-  const activeSkills = skills.length > 0 ? skills : defaultSkills;
+  const handleMouseDown = (e) => {
+    isDown.current = true;
+    setIsDragging(true);
+    const clientX = e.pageX || (e.touches && e.touches[0].pageX);
+    startX.current = clientX - (containerRef.current?.offsetLeft || 0);
+    scrollLeft.current = containerRef.current?.scrollLeft || 0;
+  };
+
+  const handleMouseUp = () => {
+    isDown.current = false;
+    setIsDragging(false);
+  };
+
+  const handleMouseLeave = () => {
+    isDown.current = false;
+    setIsDragging(false);
+  };
+
   const mid = Math.ceil(activeSkills.length / 2);
   const row1 = activeSkills.slice(0, mid);
   const row2 = activeSkills.slice(mid);
@@ -101,7 +118,7 @@ export const SkillsWheel = ({ skills = [] }) => {
           className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass border-theme-glow text-xs font-bold text-primary mb-3 shadow-sm"
         >
           <Zap className="w-3.5 h-3.5" />
-          <span>Interactive 3D Skills Wheel</span>
+          <span>{t.skills.badge}</span>
         </motion.div>
 
         <motion.h2
@@ -111,7 +128,7 @@ export const SkillsWheel = ({ skills = [] }) => {
           transition={{ delay: 0.1 }}
           className="text-3xl sm:text-5xl font-display font-black tracking-tight text-text"
         >
-          Technical Arsenal & Core Stack
+          {t.skills.title}
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -120,7 +137,7 @@ export const SkillsWheel = ({ skills = [] }) => {
           transition={{ delay: 0.2 }}
           className="mt-3 text-secondary text-sm sm:text-base max-w-xl mx-auto font-sans"
         >
-          Drag horizontally to accelerate velocity • Hold or hover to pause and inspect skills.
+          {t.skills.desc}
         </motion.p>
       </div>
 

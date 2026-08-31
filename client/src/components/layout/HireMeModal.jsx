@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   X,
@@ -19,9 +19,45 @@ import confetti from 'canvas-confetti';
 import { submitMessage } from '../../services/api';
 import { useSound } from '../../context/SoundContext';
 
-export const HireMeModal = ({ isOpen, onClose }) => {
+export const HireMeModal = ({ isOpen, onClose, settings }) => {
   const { playClick, playSuccess, playWhoosh } = useSound();
-  const [roleType, setRoleType] = useState('fulltime'); // 'fulltime', 'contract', 'consulting'
+
+  const dynamicRoles = useMemo(() => {
+    if (settings?.hireRoles && settings.hireRoles.length > 0) {
+      return settings.hireRoles.map((r, i) => ({
+        id: `role_${i}`,
+        title: r.title,
+        desc: r.desc,
+        badge: r.badge || 'Available',
+        icon: i % 3 === 0 ? Briefcase : i % 3 === 1 ? Rocket : ShieldCheck,
+      }));
+    }
+    return [
+      {
+        id: 'fulltime',
+        title: 'Full-Time Senior Role',
+        desc: 'Lead Full-Stack MERN / React 19 Engineer for global remote teams',
+        icon: Briefcase,
+        badge: 'High Priority',
+      },
+      {
+        id: 'contract',
+        title: 'Contract / MVP Sprint',
+        desc: 'High-velocity architecture, 3D web applications, and headless CMS',
+        icon: Rocket,
+        badge: '2–6 Week Sprints',
+      },
+      {
+        id: 'consulting',
+        title: 'Technical Advisory & Audit',
+        desc: 'Codebase refactoring, performance optimization, and MongoDB scaling',
+        icon: ShieldCheck,
+        badge: 'Advisory',
+      },
+    ];
+  }, [settings?.hireRoles]);
+
+  const [roleType, setRoleType] = useState(dynamicRoles[0]?.id || 'fulltime');
   const [startDate, setStartDate] = useState('immediate');
   const [formData, setFormData] = useState({
     name: '',
@@ -33,6 +69,12 @@ export const HireMeModal = ({ isOpen, onClose }) => {
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (dynamicRoles.length > 0 && !dynamicRoles.find((r) => r.id === roleType)) {
+      setRoleType(dynamicRoles[0].id);
+    }
+  }, [dynamicRoles]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -51,30 +93,6 @@ export const HireMeModal = ({ isOpen, onClose }) => {
 
   if (!isOpen) return null;
 
-  const roles = [
-    {
-      id: 'fulltime',
-      title: 'Full-Time Senior Role',
-      desc: 'Lead Full-Stack MERN / React 19 Engineer for global remote teams',
-      icon: Briefcase,
-      badge: 'High Priority',
-    },
-    {
-      id: 'contract',
-      title: 'Contract / MVP Sprint',
-      desc: 'High-velocity architecture, 3D web applications, and headless CMS',
-      icon: Rocket,
-      badge: '2–6 Week Sprints',
-    },
-    {
-      id: 'consulting',
-      title: 'Technical Advisory & Audit',
-      desc: 'Codebase refactoring, performance optimization, and MongoDB scaling',
-      icon: ShieldCheck,
-      badge: 'Advisory',
-    },
-  ];
-
   const timelines = [
     { id: 'immediate', label: '⚡ Immediate (This Week)' },
     { id: '2weeks', label: '🗓️ Within 2 Weeks' },
@@ -91,9 +109,11 @@ export const HireMeModal = ({ isOpen, onClose }) => {
     setLoading(true);
     setError('');
 
+    const activeRole = dynamicRoles.find((r) => r.id === roleType);
+
     const formattedMessage = `
 [⚡ FAST-TRACK HIRE INQUIRY]
-• Engagement Type: ${roles.find((r) => r.id === roleType)?.title}
+• Engagement Type: ${activeRole ? activeRole.title : 'General Consultation'}
 • Desired Start Date: ${timelines.find((t) => t.id === startDate)?.label}
 • Company / Organization: ${formData.company || 'Not Specified'}
 • Proposed Budget / Range: ${formData.budget}
@@ -198,13 +218,14 @@ ${formData.details || 'Standard role briefing.'}
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
-                {/* 1. Engagement Model Selector */}
+                {/* 1. Dynamic Engagement Model Selector */}
                 <div className="space-y-2">
-                  <label className="text-xs font-bold uppercase tracking-wider text-text flex items-center gap-1.5">
+                  <label className="text-xs font-bold uppercase tracking-wider text-text flex items-center justify-between">
                     <span>1. Engagement Framework</span>
+                    <span className="text-[10px] text-tertiary font-mono">CMS Synchronized</span>
                   </label>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-                    {roles.map((r) => {
+                    {dynamicRoles.map((r) => {
                       const Icon = r.icon;
                       const isActive = roleType === r.id;
                       return (

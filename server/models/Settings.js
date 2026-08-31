@@ -69,6 +69,32 @@ const settingsSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    hireRoles: {
+      type: [
+        {
+          title: { type: String, default: '' },
+          desc: { type: String, default: '' },
+          badge: { type: String, default: '' },
+        },
+      ],
+      default: [
+        {
+          title: 'Full-Time Senior Role',
+          desc: 'Lead Full-Stack MERN / React 19 Engineer for global remote teams',
+          badge: 'High Priority',
+        },
+        {
+          title: 'Contract / MVP Sprint',
+          desc: 'High-velocity architecture, 3D web applications, and headless CMS',
+          badge: '2–6 Week Sprints',
+        },
+        {
+          title: 'Technical Advisory & Audit',
+          desc: 'Codebase refactoring, performance optimization, and MongoDB scaling',
+          badge: 'Advisory',
+        },
+      ],
+    },
   },
   { timestamps: true }
 );

@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { Briefcase, GraduationCap, Trophy, FolderGit2, Calendar, Sparkles } from 'lucide-react';
 import { useTilt } from '../../hooks/useTilt';
+import { useLanguage } from '../../context/LanguageContext';
 
 const TimelineCard = ({ item, index }) => {
   const { ref, style, glare, onMouseMove, onMouseLeave } = useTilt(10, 1000, 1.02);
@@ -80,19 +81,20 @@ const TimelineCard = ({ item, index }) => {
 };
 
 export const TimelineSection = ({ milestones = [] }) => {
+  const { t } = useLanguage();
   const fallbackMilestones = [
     {
       year: '2024 — Present',
-      title: 'Lead Full-Stack MERN & Motion Engineer',
-      company: 'HyperScale Systems',
-      description: 'Architecting high-frequency real-time web applications, managing microservices with Docker, and engineering 60fps physics animations.',
+      title: 'Lead Full-Stack MERN Engineer',
+      company: 'High-Scale SaaS & Web Platforms',
+      description: 'Architecting distributed Node.js microservices, real-time WebSocket pipelines, and 60FPS React 19 visual systems.',
       type: 'work',
     },
     {
       year: '2023 — 2024',
       title: 'Senior Frontend & Motion Developer',
-      company: 'Vortex Interactive Studio',
-      description: 'Created collaborative WebGL animation canvases, bespoke client visual design systems, and sub-30ms WebSocket syncing pipelines.',
+      company: 'Creative Tech Agency',
+      description: 'Engineered WebGL particle canvases, custom headless CMS portals, and high-conversion e-commerce engines.',
       type: 'work',
     },
     {
@@ -127,7 +129,7 @@ export const TimelineSection = ({ milestones = [] }) => {
             className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass border-theme-glow text-xs font-bold text-primary mb-3 shadow-sm"
           >
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Career Milestones</span>
+            <span>{t.timeline.badge}</span>
           </motion.div>
 
           <motion.h2
@@ -137,7 +139,7 @@ export const TimelineSection = ({ milestones = [] }) => {
             transition={{ delay: 0.1 }}
             className="text-3xl sm:text-5xl font-display font-black tracking-tight text-text"
           >
-            Experience & Journey
+            {t.timeline.title}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -146,7 +148,7 @@ export const TimelineSection = ({ milestones = [] }) => {
             transition={{ delay: 0.2 }}
             className="mt-3 text-secondary text-sm sm:text-base font-sans"
           >
-            The roadmap of engineering leadership, product launches, and technical milestones.
+            {t.timeline.desc}
           </motion.p>
         </div>
 

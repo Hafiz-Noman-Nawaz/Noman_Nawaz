@@ -4,6 +4,7 @@ import { Star, MessageSquareQuote, Sparkles, Plus, CheckCircle2 } from 'lucide-r
 import { useTilt } from '../../hooks/useTilt';
 import LeaveReviewModal from './LeaveReviewModal';
 import { useSound } from '../../context/SoundContext';
+import { useLanguage } from '../../context/LanguageContext';
 
 const TestimonialCard = ({ item, index }) => {
   const { ref, style, glare, onMouseMove, onMouseLeave } = useTilt(10, 1000, 1.02);
@@ -64,17 +65,17 @@ const TestimonialCard = ({ item, index }) => {
 };
 
 export const TestimonialsSection = ({ testimonials = [] }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { t } = useLanguage();
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [localTestimonials, setLocalTestimonials] = useState(testimonials);
   const { playClick } = useSound();
 
-  // Keep local list synchronized with CMS API data
   useEffect(() => {
     setLocalTestimonials(testimonials);
   }, [testimonials]);
 
-  const handleNewTestimonial = (newReview) => {
-    setLocalTestimonials((prev) => [newReview, ...prev]);
+  const handleTestimonialAdded = (newTestimonial) => {
+    setLocalTestimonials((prev) => [newTestimonial, ...prev]);
   };
 
   const displayList = localTestimonials || [];
@@ -94,7 +95,7 @@ export const TestimonialsSection = ({ testimonials = [] }) => {
               className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass border-theme-glow text-xs font-bold text-secondary mb-3 shadow-sm"
             >
               <MessageSquareQuote className="w-3.5 h-3.5" />
-              <span>Social Proof & Endorsements</span>
+              <span>{t.testimonials.badge}</span>
             </motion.div>
 
             <motion.h2
@@ -104,7 +105,7 @@ export const TestimonialsSection = ({ testimonials = [] }) => {
               transition={{ delay: 0.1 }}
               className="text-3xl sm:text-5xl font-display font-black tracking-tight text-text"
             >
-              Client & Peer Endorsements
+              {t.testimonials.title}
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -113,7 +114,7 @@ export const TestimonialsSection = ({ testimonials = [] }) => {
               transition={{ delay: 0.2 }}
               className="mt-3 text-secondary text-sm sm:text-base font-sans"
             >
-              Recommendations from founders, teammates, and clients. Have we worked together? Feel free to leave a review below!
+              {t.testimonials.desc}
             </motion.p>
           </div>
 
@@ -126,12 +127,11 @@ export const TestimonialsSection = ({ testimonials = [] }) => {
             <button
               onClick={() => {
                 playClick();
-                setIsModalOpen(true);
+                setIsReviewModalOpen(true);
               }}
-              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-primary text-white font-bold text-xs shadow-lg shadow-primary/30 hover:scale-105 hover:shadow-primary/50 transition-all cursor-pointer"
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-gradient-to-r from-primary to-secondary text-white font-bold text-xs shadow-lg shadow-primary/25 hover:scale-105 transition-all duration-300"
             >
-              <Sparkles className="w-4 h-4" />
-              <span>Leave a Recommendation</span>
+              <span>{t.testimonials.leaveReview}</span>
             </button>
           </motion.div>
         </div>

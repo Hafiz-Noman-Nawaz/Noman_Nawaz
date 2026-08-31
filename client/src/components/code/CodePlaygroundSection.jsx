@@ -14,8 +14,10 @@ import {
   RefreshCw,
 } from 'lucide-react';
 import { useSound } from '../../context/SoundContext';
+import { useLanguage } from '../../context/LanguageContext';
 
 export const CodePlaygroundSection = () => {
+  const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState(0);
   const [running, setRunning] = useState(false);
   const [logs, setLogs] = useState([]);
@@ -169,7 +171,7 @@ const stats = await Message.aggregate([
             className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass border-theme-glow text-xs font-bold text-accent mb-3 shadow-sm"
           >
             <Code2 className="w-3.5 h-3.5" />
-            <span>Interactive Code Execution</span>
+            <span>{t.code.badge}</span>
           </motion.div>
 
           <motion.h2
@@ -179,7 +181,7 @@ const stats = await Message.aggregate([
             transition={{ delay: 0.1 }}
             className="text-3xl sm:text-5xl font-display font-black tracking-tight text-text"
           >
-            Architecture & Live Code Snippets
+            {t.code.title}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -188,7 +190,7 @@ const stats = await Message.aggregate([
             transition={{ delay: 0.2 }}
             className="mt-3 text-secondary text-sm sm:text-base font-sans"
           >
-            Select a core module below and click <strong>"Run Snippet"</strong> to test live simulated execution in the runtime terminal.
+            {t.code.desc}
           </motion.p>
         </div>
 

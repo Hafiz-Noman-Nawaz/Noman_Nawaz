@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { Move, Play, Pause, Sparkles } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 import { useSound } from '../../context/SoundContext';
+import { useLanguage } from '../../context/LanguageContext';
 
 const drawRoundedRect = (ctx, x, y, width, height, radius) => {
   ctx.beginPath();
@@ -19,6 +20,7 @@ const drawRoundedRect = (ctx, x, y, width, height, radius) => {
 };
 
 export const PhysicsSandbox = ({ skills = [] }) => {
+  const { t } = useLanguage();
   const canvasRef = useRef(null);
   const containerRef = useRef(null);
   const { theme } = useTheme();
@@ -302,13 +304,13 @@ export const PhysicsSandbox = ({ skills = [] }) => {
           <div>
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass border-theme-glow text-xs font-bold text-accent mb-2 shadow-sm">
               <Move className="w-3.5 h-3.5" />
-              <span>Interactive Physics Sandbox</span>
+              <span>{t.sandbox.badge}</span>
             </div>
             <h3 className="text-2xl sm:text-4xl font-display font-black tracking-tight text-text">
-              Skill Gravity Playground
+              {t.sandbox.title}
             </h3>
             <p className="text-secondary text-xs sm:text-sm mt-1 font-sans">
-              Grab, fling, bounce, or toss skills around the canvas with real 2D physics collisions.
+              {t.sandbox.desc}
             </p>
           </div>
 
@@ -325,7 +327,7 @@ export const PhysicsSandbox = ({ skills = [] }) => {
               }`}
             >
               {gravityActive ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
-              <span>{gravityActive ? 'Zero-G Mode' : 'Enable Gravity'}</span>
+              <span>{gravityActive ? t.sandbox.zeroG : t.sandbox.gravity}</span>
             </button>
           </div>
         </div>
@@ -338,7 +340,7 @@ export const PhysicsSandbox = ({ skills = [] }) => {
           <canvas ref={canvasRef} className="w-full h-full cursor-grab active:cursor-grabbing block touch-none" />
 
           <div className="pointer-events-none absolute bottom-3 right-3 sm:bottom-4 sm:right-5 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-xl glass border border-theme text-[10px] sm:text-[11px] font-semibold text-tertiary">
-            💡 Touch & Fling Pills
+            {t.sandbox.hint}
           </div>
         </div>
       </div>

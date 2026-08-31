@@ -4,14 +4,16 @@ import { FolderGit2, Sparkles, Layers, Cpu, Globe } from 'lucide-react';
 import ProjectCard from './ProjectCard';
 import ProjectModal from './ProjectModal';
 import { useSound } from '../../context/SoundContext';
+import { useLanguage } from '../../context/LanguageContext';
 
 export const ProjectsGallery = ({ projects = [] }) => {
+  const { t } = useLanguage();
   const [selectedProject, setSelectedProject] = useState(null);
   const [activeCategory, setActiveCategory] = useState('all');
   const { playClick } = useSound();
 
   const categories = [
-    { id: 'all', label: 'All Projects', icon: FolderGit2 },
+    { id: 'all', label: t.projects.allTab, icon: FolderGit2 },
     { id: 'mern', label: 'Full-Stack MERN', icon: Layers },
     { id: 'ai', label: 'AI & Data Systems', icon: Cpu },
     { id: 'motion', label: '3D Motion & UI', icon: Sparkles },
@@ -56,13 +58,13 @@ export const ProjectsGallery = ({ projects = [] }) => {
           >
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass border-theme-glow text-xs font-bold text-secondary shadow-sm">
               <FolderGit2 className="w-3.5 h-3.5" />
-              <span>Selected Portfolio</span>
+              <span>{t.projects.badge}</span>
             </div>
             <h2 className="text-3xl sm:text-5xl font-display font-black tracking-tight text-text">
-              Featured Case Studies & Work
+              {t.projects.title}
             </h2>
             <p className="text-secondary text-sm sm:text-base max-w-xl font-sans">
-              Interact with the 3D cards below. Click any card to inspect full hardware mockup previews, case study breakdowns, and live demos.
+              {t.projects.desc}
             </p>
           </motion.div>
 

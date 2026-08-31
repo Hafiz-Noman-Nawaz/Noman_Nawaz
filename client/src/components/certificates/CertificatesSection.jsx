@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { Award, ExternalLink, ShieldCheck, CheckCircle2, Sparkles } from 'lucide-react';
 import { useTilt } from '../../hooks/useTilt';
 import { useSound } from '../../context/SoundContext';
+import { useLanguage } from '../../context/LanguageContext';
 
 const CertificateCard = ({ cert, index }) => {
   const { ref, style, glare, onMouseMove, onMouseLeave } = useTilt(14, 1000, 1.03);
@@ -91,16 +92,17 @@ const CertificateCard = ({ cert, index }) => {
 };
 
 export const CertificatesSection = ({ certificates = [] }) => {
+  const { t } = useLanguage();
   const fallbackCertificates = [
     {
       title: 'Meta Certified Full-Stack Developer',
       issuer: 'Meta / Coursera',
-      issueDate: '2025',
-      credentialUrl: 'https://coursera.org/verify/meta-fullstack',
+      issueDate: '2024',
+      credentialUrl: 'https://coursera.org/verify/professional-cert/meta-full-stack',
       badgeColor: 'blue',
     },
     {
-      title: 'MongoDB Certified Node.js Developer',
+      title: 'MongoDB Certified Developer Associate',
       issuer: 'MongoDB University',
       issueDate: '2024',
       credentialUrl: 'https://university.mongodb.com/credentials',
@@ -131,7 +133,7 @@ export const CertificatesSection = ({ certificates = [] }) => {
             className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass border-theme-glow text-xs font-bold text-accent mb-3 shadow-sm"
           >
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Honors & Certifications</span>
+            <span>{t.certificates.badge}</span>
           </motion.div>
 
           <motion.h2
@@ -141,7 +143,7 @@ export const CertificatesSection = ({ certificates = [] }) => {
             transition={{ delay: 0.1 }}
             className="text-3xl sm:text-5xl font-display font-black tracking-tight text-text"
           >
-            Verified Accreditations
+            {t.certificates.title}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -150,7 +152,7 @@ export const CertificatesSection = ({ certificates = [] }) => {
             transition={{ delay: 0.2 }}
             className="mt-3 text-secondary text-sm sm:text-base font-sans"
           >
-            Industry certifications from Meta, MongoDB, and AWS validating architectural expertise.
+            {t.certificates.desc}
           </motion.p>
         </div>
 

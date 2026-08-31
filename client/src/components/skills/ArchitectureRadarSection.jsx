@@ -11,8 +11,10 @@ import {
   CheckCircle2,
 } from 'lucide-react';
 import { useSound } from '../../context/SoundContext';
+import { useLanguage } from '../../context/LanguageContext';
 
 export const ArchitectureRadarSection = () => {
+  const { t } = useLanguage();
   const [activeMetric, setActiveMetric] = useState(0);
   const { playClick, playHover } = useSound();
 
@@ -102,7 +104,7 @@ export const ArchitectureRadarSection = () => {
             className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass border-theme-glow text-xs font-bold text-primary mb-3 shadow-sm"
           >
             <Activity className="w-3.5 h-3.5" />
-            <span>Empirical Engineering Benchmarks</span>
+            <span>{t.radar.badge}</span>
           </motion.div>
 
           <motion.h2
@@ -112,7 +114,7 @@ export const ArchitectureRadarSection = () => {
             transition={{ delay: 0.1 }}
             className="text-3xl sm:text-5xl font-display font-black tracking-tight text-text"
           >
-            Architecture & Performance Radar
+            {t.radar.title}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -121,7 +123,7 @@ export const ArchitectureRadarSection = () => {
             transition={{ delay: 0.2 }}
             className="mt-3 text-secondary text-sm sm:text-base font-sans"
           >
-            A multi-dimensional evaluation of full-stack scalability, real-time throughput, and production engineering rigor.
+            {t.radar.desc}
           </motion.p>
         </div>
 

@@ -4,8 +4,10 @@ import { Mail, Phone, MapPin, ArrowUpRight, Copy, Check, Sparkles, Send, Refresh
 import confetti from 'canvas-confetti';
 import { submitMessage } from '../../services/api';
 import { useSound } from '../../context/SoundContext';
+import { useLanguage } from '../../context/LanguageContext';
 
 export const ContactSection = ({ settings, preFillMessage = '' }) => {
+  const { t } = useLanguage();
   const [copied, setCopied] = useState(null);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
@@ -39,10 +41,12 @@ export const ContactSection = ({ settings, preFillMessage = '' }) => {
         particleCount: 100,
         spread: 70,
         origin: { y: 0.6 },
+        colors: ['#8b5cf6', '#06b6d4', '#00ff66', '#f43f5e'],
       });
+      setFormData({ name: '', email: '', message: '' });
     } catch (err) {
       console.error(err);
-      setError('Failed to send message. Please try again or email directly.');
+      setError('Transmission failed. Please check your connection or email directly.');
     } finally {
       setLoading(false);
     }
@@ -50,30 +54,30 @@ export const ContactSection = ({ settings, preFillMessage = '' }) => {
 
   const email = settings?.email || 'nawaznoman7766@gmail.com';
   const phone = settings?.phone || '+92 300 1234567';
-  const location = settings?.location || 'Pakistan — Available Worldwide / Remote';
+  const location = settings?.location || 'Pakistan (Available Worldwide / Remote)';
 
   const socials = [
-    settings?.github && { name: 'GitHub', url: settings.github },
-    settings?.linkedin && { name: 'LinkedIn', url: settings.linkedin },
-    settings?.twitter && { name: 'Twitter / X', url: settings.twitter },
-    settings?.instagram && { name: 'Instagram', url: settings.instagram },
-  ].filter(Boolean);
+    { name: 'GitHub', url: settings?.github || 'https://github.com/Hafiz-Noman-Nawaz' },
+    { name: 'LinkedIn', url: settings?.linkedin || 'https://linkedin.com' },
+    { name: 'Twitter / X', url: settings?.twitter || 'https://twitter.com' },
+  ];
 
   return (
-    <section id="contact" className="relative py-28 z-10">
+    <section id="contact" className="relative py-28 z-10 overflow-hidden">
       {/* Background ambient lighting */}
-      <div className="absolute bottom-0 left-1/4 w-[600px] h-[400px] bg-primary/10 blur-[150px] pointer-events-none rounded-full" />
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-primary/10 blur-[150px] pointer-events-none rounded-full" />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
+        {/* Section Header */}
+        <div className="text-center max-w-2xl mx-auto mb-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass border-theme-glow text-xs font-bold text-accent mb-3 shadow-sm"
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass border-theme-glow text-xs font-bold text-primary mb-3 shadow-sm"
           >
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Initiate Collaboration</span>
+            <span>{t.contact.badge}</span>
           </motion.div>
 
           <motion.h2
@@ -83,7 +87,7 @@ export const ContactSection = ({ settings, preFillMessage = '' }) => {
             transition={{ delay: 0.1 }}
             className="text-3xl sm:text-5xl font-display font-black tracking-tight text-text"
           >
-            Get In Touch
+            {t.contact.title}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -92,7 +96,7 @@ export const ContactSection = ({ settings, preFillMessage = '' }) => {
             transition={{ delay: 0.2 }}
             className="mt-3 text-secondary text-sm sm:text-base font-sans"
           >
-            Looking to engineer a high-performance web platform or interactive experience? Drop a message or connect directly.
+            {t.contact.desc}
           </motion.p>
         </div>
 
@@ -150,10 +154,10 @@ export const ContactSection = ({ settings, preFillMessage = '' }) => {
                 </div>
                 <div>
                   <span className="block text-xs font-bold uppercase tracking-wider text-tertiary">
-                    Phone / WhatsApp
+                    Direct Phone / WhatsApp
                   </span>
                   <a
-                    href={`tel:${phone}`}
+                    href={`tel:${phone.replace(/\s+/g, '')}`}
                     className="text-sm sm:text-base font-bold text-text hover:text-secondary transition-colors"
                   >
                     {phone}
@@ -235,10 +239,7 @@ export const ContactSection = ({ settings, preFillMessage = '' }) => {
                 <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 mx-auto flex items-center justify-center border border-emerald-500/40 shadow-lg">
                   <Check className="w-8 h-8" />
                 </div>
-                <h3 className="text-2xl font-display font-bold text-text">Message Received!</h3>
-                <p className="text-sm text-secondary max-w-md mx-auto">
-                  Thank you for reaching out. Your message has been stored in Noman's inbox and he will reply promptly.
-                </p>
+                <h3 className="text-2xl font-display font-bold text-text">{t.contact.successMsg}</h3>
                 <button
                   onClick={() => {
                     setSubmitted(false);
@@ -252,7 +253,7 @@ export const ContactSection = ({ settings, preFillMessage = '' }) => {
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5">
                 <h3 className="text-xl font-display font-bold text-text tracking-tight">
-                  Send a Direct Inquiry
+                  {t.contact.sendBtn}
                 </h3>
 
                 {error && (
@@ -264,12 +265,12 @@ export const ContactSection = ({ settings, preFillMessage = '' }) => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-bold uppercase text-tertiary mb-1.5">
-                      Your Name
+                      {t.contact.nameLabel}
                     </label>
                     <input
                       type="text"
                       required
-                      placeholder="e.g. Alex Morgan"
+                      placeholder={t.contact.namePlaceholder}
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       className="w-full px-4 py-3 rounded-2xl glass text-sm text-text focus:outline-none focus:border-theme-glow transition-all"
@@ -277,12 +278,12 @@ export const ContactSection = ({ settings, preFillMessage = '' }) => {
                   </div>
                   <div>
                     <label className="block text-xs font-bold uppercase text-tertiary mb-1.5">
-                      Your Email
+                      {t.contact.emailLabel}
                     </label>
                     <input
                       type="email"
                       required
-                      placeholder="e.g. alex@company.com"
+                      placeholder={t.contact.emailPlaceholder}
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       className="w-full px-4 py-3 rounded-2xl glass text-sm text-text focus:outline-none focus:border-theme-glow transition-all"
@@ -292,12 +293,12 @@ export const ContactSection = ({ settings, preFillMessage = '' }) => {
 
                 <div>
                   <label className="block text-xs font-bold uppercase text-tertiary mb-1.5">
-                    Project Details
+                    {t.contact.msgLabel}
                   </label>
                   <textarea
                     rows={4}
                     required
-                    placeholder="Tell me about your project, goals, or timeline..."
+                    placeholder={t.contact.msgPlaceholder}
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     className="w-full px-4 py-3 rounded-2xl glass text-sm text-text focus:outline-none focus:border-theme-glow transition-all resize-none"
@@ -313,7 +314,7 @@ export const ContactSection = ({ settings, preFillMessage = '' }) => {
                     <RefreshCw className="w-5 h-5 animate-spin" />
                   ) : (
                     <>
-                      <span>Send Message</span>
+                      <span>{t.contact.sendBtn}</span>
                       <Send className="w-4 h-4" />
                     </>
                   )}

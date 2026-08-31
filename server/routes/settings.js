@@ -60,6 +60,7 @@ router.put('/', protect, async (req, res) => {
       instagram,
       resumeUrl,
       skills,
+      hireRoles,
       statusText,
       currentActivity,
       musicTrack,
@@ -80,6 +81,19 @@ router.put('/', protect, async (req, res) => {
     if (currentActivity !== undefined) settings.currentActivity = currentActivity;
     if (musicTrack !== undefined) settings.musicTrack = musicTrack;
     if (isAvailable !== undefined) settings.isAvailable = isAvailable === 'true' || isAvailable === true;
+
+    // Handle hireRoles array
+    if (hireRoles !== undefined) {
+      if (typeof hireRoles === 'string') {
+        try {
+          settings.hireRoles = JSON.parse(hireRoles);
+        } catch {
+          // ignore error
+        }
+      } else if (Array.isArray(hireRoles)) {
+        settings.hireRoles = hireRoles;
+      }
+    }
 
     // Handle skills array
     if (skills !== undefined) {

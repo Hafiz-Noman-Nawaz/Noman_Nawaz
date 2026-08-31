@@ -13,8 +13,10 @@ import {
   Activity,
 } from 'lucide-react';
 import { useSound } from '../../context/SoundContext';
+import { useLanguage } from '../../context/LanguageContext';
 
 export const GitHubActivitySection = () => {
+  const { t } = useLanguage();
   const [profile, setProfile] = useState(null);
   const [repos, setRepos] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -102,7 +104,7 @@ export const GitHubActivitySection = () => {
               className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass border-theme-glow text-xs font-bold text-primary mb-3 shadow-sm"
             >
               <Github className="w-3.5 h-3.5" />
-              <span>Open Source & Engineering Velocity</span>
+              <span>{t.github.badge}</span>
             </motion.div>
 
             <motion.h2
@@ -112,7 +114,7 @@ export const GitHubActivitySection = () => {
               transition={{ delay: 0.1 }}
               className="text-3xl sm:text-5xl font-display font-black tracking-tight text-text"
             >
-              Live GitHub Cadence & Repositories
+              {t.github.title}
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -121,7 +123,7 @@ export const GitHubActivitySection = () => {
               transition={{ delay: 0.2 }}
               className="mt-3 text-secondary text-sm sm:text-base font-sans"
             >
-              Real-time daily coding activity, active repositories, and open-source contributions.
+              {t.github.desc}
             </motion.p>
           </div>
 
