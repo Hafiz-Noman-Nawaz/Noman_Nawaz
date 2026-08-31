@@ -42,6 +42,10 @@ const settingsSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
+    calendlyUrl: {
+      type: String,
+      default: '',
+    },
     skills: {
       type: [String],
       default: [

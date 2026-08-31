@@ -20,6 +20,7 @@ import {
   Headphones,
   Briefcase,
   Trash2,
+  Calendar,
 } from 'lucide-react';
 
 export const SettingsManager = () => {
@@ -34,6 +35,7 @@ export const SettingsManager = () => {
     twitter: '',
     instagram: '',
     resumeUrl: '',
+    calendlyUrl: '',
     statusText: 'Crafting Next-Gen Web Systems',
     currentActivity: 'Building with React 19, Motion & WebGL',
     musicTrack: 'Lofi Cyberpunk Coding Beats',
@@ -94,6 +96,7 @@ export const SettingsManager = () => {
           twitter: data.twitter || '',
           instagram: data.instagram || '',
           resumeUrl: data.resumeUrl || '',
+          calendlyUrl: data.calendlyUrl || '',
           statusText: data.statusText || 'Crafting Next-Gen Web Systems',
           currentActivity: data.currentActivity || 'Building with React 19, Motion & WebGL',
           musicTrack: data.musicTrack || 'Lofi Cyberpunk Coding Beats',
@@ -374,6 +377,7 @@ export const SettingsManager = () => {
               { label: 'LinkedIn', key: 'linkedin', icon: Linkedin },
               { label: 'Twitter / X', key: 'twitter', icon: Twitter },
               { label: 'Instagram', key: 'instagram', icon: Instagram },
+              { label: 'Calendly / Meeting URL', key: 'calendlyUrl', icon: Calendar },
             ].map((field) => (
               <div key={field.key}>
                 <label className="block text-xs font-bold uppercase text-secondary mb-1 flex items-center gap-1.5">

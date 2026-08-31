@@ -14,6 +14,8 @@ import {
   Clock,
   MapPin,
   RefreshCw,
+  MessageCircle,
+  ExternalLink,
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { submitMessage } from '../../services/api';
@@ -69,6 +71,14 @@ export const HireMeModal = ({ isOpen, onClose, settings }) => {
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
+
+  const calendlyUrl = settings?.calendlyUrl || 'https://calendly.com';
+  const rawPhone = (settings?.phone || '+923001234567').replace(/[^0-9]/g, '');
+  const whatsappLink = `https://wa.me/${rawPhone}?text=${encodeURIComponent(
+    `Hello Noman! I am interested in collaborating regarding a ${
+      dynamicRoles.find((r) => r.id === roleType)?.title || 'project'
+    }.`
+  )}`;
 
   useEffect(() => {
     if (dynamicRoles.length > 0 && !dynamicRoles.find((r) => r.id === roleType)) {
@@ -197,27 +207,75 @@ ${formData.details || 'Standard role briefing.'}
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="text-center py-10 space-y-4"
+                className="text-center py-8 space-y-5"
               >
-                <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center mx-auto">
+                <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center mx-auto shadow-lg">
                   <CheckCircle2 className="w-8 h-8" />
                 </div>
-                <h4 className="text-2xl font-display font-bold text-text">Fast-Track Inquiry Received!</h4>
-                <p className="text-secondary text-sm max-w-md mx-auto">
-                  Thank you for reaching out, <strong>{formData.name}</strong>. I have received your briefing and will review your requirements and respond within 24 hours.
-                </p>
+                <div className="space-y-1">
+                  <h4 className="text-2xl font-display font-bold text-text">Inquiry Dispatched & Logged!</h4>
+                  <p className="text-secondary text-xs sm:text-sm max-w-md mx-auto">
+                    Thank you, <strong>{formData.name}</strong>. Your briefing has been saved to Noman's inbox and emailed for prompt review within 24 hours.
+                  </p>
+                </div>
+
+                {/* Instant Action Next Steps */}
+                <div className="p-4 rounded-2xl bg-surface border border-theme max-w-md mx-auto space-y-3">
+                  <p className="text-xs font-bold text-text uppercase tracking-wider">Want to connect right away?</p>
+                  <div className="flex flex-col sm:flex-row items-center justify-center gap-2.5">
+                    <a
+                      href={calendlyUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-primary text-white text-xs font-bold shadow-md hover:scale-105 transition-all"
+                    >
+                      <Calendar className="w-3.5 h-3.5" />
+                      <span>Book on Calendar</span>
+                    </a>
+                    <a
+                      href={whatsappLink}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-md hover:scale-105 transition-all"
+                    >
+                      <MessageCircle className="w-3.5 h-3.5" />
+                      <span>Instant WhatsApp</span>
+                    </a>
+                  </div>
+                </div>
+
                 <button
                   onClick={() => {
                     playClick();
                     onClose();
                   }}
-                  className="px-6 py-2.5 rounded-xl bg-primary text-white text-xs font-bold shadow-lg hover:opacity-90 transition-opacity"
+                  className="px-6 py-2 rounded-xl glass hover:bg-surface text-secondary text-xs font-bold transition-all"
                 >
                   Close Window
                 </button>
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Quick Calendar Banner */}
+                <div className="flex items-center justify-between p-3 sm:p-4 rounded-2xl glass border border-theme bg-surface/50">
+                  <div className="flex items-center gap-2.5">
+                    <Calendar className="w-4 h-4 text-primary flex-shrink-0" />
+                    <div>
+                      <p className="text-xs font-bold text-text">Prefer to schedule a direct video call?</p>
+                      <p className="text-[10px] text-secondary">Pick an available time directly on my calendar</p>
+                    </div>
+                  </div>
+                  <a
+                    href={calendlyUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="px-3 py-1.5 rounded-xl bg-primary/20 hover:bg-primary/30 border border-primary/40 text-primary text-xs font-bold transition-all flex items-center gap-1 flex-shrink-0"
+                  >
+                    <span>Schedule</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
+
                 {/* 1. Dynamic Engagement Model Selector */}
                 <div className="space-y-2">
                   <label className="text-xs font-bold uppercase tracking-wider text-text flex items-center justify-between">
@@ -346,9 +404,7 @@ ${formData.details || 'Standard role briefing.'}
                   </div>
                 </div>
 
-                {error && (
-                  <p className="text-xs text-rose-400 font-medium">{error}</p>
-                )}
+                {error && <p className="text-xs text-rose-400 font-medium">{error}</p>}
 
                 {/* Submit Action */}
                 <button

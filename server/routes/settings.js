@@ -59,6 +59,7 @@ router.put('/', protect, async (req, res) => {
       twitter,
       instagram,
       resumeUrl,
+      calendlyUrl,
       skills,
       hireRoles,
       statusText,
@@ -77,6 +78,7 @@ router.put('/', protect, async (req, res) => {
     if (twitter !== undefined) settings.twitter = twitter;
     if (instagram !== undefined) settings.instagram = instagram;
     if (resumeUrl !== undefined) settings.resumeUrl = resumeUrl;
+    if (calendlyUrl !== undefined) settings.calendlyUrl = calendlyUrl;
     if (statusText !== undefined) settings.statusText = statusText;
     if (currentActivity !== undefined) settings.currentActivity = currentActivity;
     if (musicTrack !== undefined) settings.musicTrack = musicTrack;

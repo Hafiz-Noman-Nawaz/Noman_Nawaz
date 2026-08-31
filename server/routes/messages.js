@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Message = require('../models/Message');
 const { protect } = require('../middleware/auth');
+const { sendInquiryAlert } = require('../utils/mailer');
 
 // @route   POST /api/messages
 // @desc    Submit a contact inquiry message
@@ -21,6 +22,11 @@ router.post('/', async (req, res) => {
       name,
       email,
       message,
+    });
+
+    // Send real-time email alert in background
+    sendInquiryAlert({ name, email, message }).catch((err) => {
+      console.error('Email alert background error:', err.message);
     });
 
     res.status(201).json({
