@@ -5,8 +5,6 @@ import HeroSection from '../components/hero/HeroSection';
 import SkillsWheel from '../components/skills/SkillsWheel';
 import PhysicsSandbox from '../components/skills/PhysicsSandbox';
 import ProjectsGallery from '../components/projects/ProjectsGallery';
-import ArchitectureRadarSection from '../components/skills/ArchitectureRadarSection';
-import CodePlaygroundSection from '../components/code/CodePlaygroundSection';
 import GitHubActivitySection from '../components/github/GitHubActivitySection';
 import TimelineSection from '../components/timeline/TimelineSection';
 import CertificatesSection from '../components/certificates/CertificatesSection';
@@ -120,8 +118,6 @@ export const Home = () => {
         <SkillsWheel skills={settings?.skills || []} />
         <PhysicsSandbox skills={settings?.skills || []} />
         <ProjectsGallery projects={projects} />
-        <ArchitectureRadarSection />
-        <CodePlaygroundSection />
         <GitHubActivitySection />
         <TimelineSection milestones={timeline} />
         <CertificatesSection certificates={certificates} />
