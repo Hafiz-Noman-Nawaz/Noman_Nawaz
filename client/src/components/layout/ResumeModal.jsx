@@ -34,7 +34,6 @@ export const ResumeModal = ({
   certificates = [],
 }) => {
   const [layoutMode, setLayoutMode] = useState('executive'); // 'executive', 'modern', 'minimal'
-  const resumeContainerRef = useRef(null);
   const { playClick, playWhoosh } = useSound();
 
   useEffect(() => {
@@ -80,6 +79,38 @@ export const ResumeModal = ({
   const educationMilestones = timeline.filter((item) => item.type === 'education');
   const verifiedCerts = certificates || [];
 
+  // Helper to parse case study highlights & clean stack
+  const parseProjectData = (p) => {
+    let overview = p.description || '';
+    let highlights = [];
+
+    if (p.caseStudy) {
+      const lines = p.caseStudy.split('\n').map((l) => l.trim()).filter(Boolean);
+      const bulletLines = lines.filter((l) => l.startsWith('- ') || l.startsWith('* ') || l.startsWith('• '));
+      if (bulletLines.length > 0) {
+        highlights = bulletLines.slice(0, 3).map((b) => b.replace(/^[-*•]\s*/, ''));
+      } else {
+        const bodyLines = lines.filter((l) => !l.startsWith('#') && l.length > 25);
+        if (bodyLines.length > 1) {
+          highlights = bodyLines.slice(1, 3);
+        }
+      }
+    }
+
+    if (highlights.length === 0 && p.metrics && p.metrics.length > 0) {
+      highlights = p.metrics.slice(0, 2);
+    }
+
+    // Keep stack clean & focused (max 5-6 top technologies)
+    const cleanStack = (p.techStack || []).slice(0, 6).join(' · ');
+
+    return {
+      overview,
+      highlights,
+      cleanStack,
+    };
+  };
+
   // Dedicated Recruiter Clean Print Window Generator
   const handlePrint = () => {
     playClick();
@@ -93,7 +124,7 @@ export const ResumeModal = ({
   <style>
     @page {
       size: A4 portrait;
-      margin: 12mm 14mm;
+      margin: 10mm 12mm;
     }
     * {
       box-sizing: border-box;
@@ -104,8 +135,8 @@ export const ResumeModal = ({
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       color: #0f172a;
       background: #ffffff;
-      font-size: 9.5pt;
-      line-height: 1.45;
+      font-size: 9pt;
+      line-height: 1.4;
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
     }
@@ -115,30 +146,30 @@ export const ResumeModal = ({
     }
     .header {
       border-bottom: 2px solid #0f172a;
-      padding-bottom: 12px;
-      margin-bottom: 14px;
+      padding-bottom: 10px;
+      margin-bottom: 12px;
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
     }
     .header-left h1 {
-      font-size: 20pt;
+      font-size: 18pt;
       font-weight: 800;
       color: #0f172a;
       letter-spacing: -0.5px;
-      margin-bottom: 2px;
+      margin-bottom: 1px;
     }
     .header-left .tagline {
-      font-size: 11pt;
+      font-size: 10pt;
       font-weight: 600;
       color: #4338ca;
-      margin-bottom: 6px;
+      margin-bottom: 5px;
     }
     .contact-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
-      font-size: 8.5pt;
+      gap: 10px;
+      font-size: 8pt;
       color: #475569;
       font-weight: 500;
     }
@@ -147,9 +178,9 @@ export const ResumeModal = ({
       align-items: center;
     }
     .photo-box {
-      width: 70px;
-      height: 70px;
-      border-radius: 12px;
+      width: 60px;
+      height: 60px;
+      border-radius: 10px;
       overflow: hidden;
       border: 1.5px solid #cbd5e1;
       flex-shrink: 0;
@@ -160,94 +191,98 @@ export const ResumeModal = ({
       object-fit: cover;
     }
     .section {
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       page-break-inside: avoid;
     }
     .section-title {
-      font-size: 10.5pt;
+      font-size: 9.5pt;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.8px;
       color: #0f172a;
       border-bottom: 1px solid #cbd5e1;
-      padding-bottom: 3px;
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      padding-bottom: 2px;
+      margin-bottom: 6px;
     }
     .summary-text {
-      font-size: 9pt;
+      font-size: 8.5pt;
       color: #334155;
       text-align: justify;
+      line-height: 1.35;
     }
     .skills-grid {
       display: flex;
       flex-wrap: wrap;
-      gap: 4px 6px;
+      gap: 3px 5px;
     }
     .skill-pill {
       background: #f1f5f9;
       border: 1px solid #e2e8f0;
-      padding: 2px 7px;
-      border-radius: 5px;
-      font-size: 8.5pt;
+      padding: 1.5px 6px;
+      border-radius: 4px;
+      font-size: 8pt;
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
       font-weight: 600;
       color: #1e293b;
     }
     .item {
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       page-break-inside: avoid;
     }
     .item-header {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
-      margin-bottom: 2px;
+      margin-bottom: 1px;
     }
     .item-title {
-      font-size: 10pt;
+      font-size: 9.5pt;
       font-weight: 700;
       color: #0f172a;
     }
     .item-company {
-      font-size: 9pt;
+      font-size: 8.5pt;
       font-weight: 600;
       color: #4338ca;
     }
     .item-date {
-      font-size: 8.5pt;
+      font-size: 8pt;
       font-family: ui-monospace, SFMono-Regular, monospace;
       color: #64748b;
       font-weight: 600;
     }
     .item-desc {
-      font-size: 8.5pt;
-      color: #334155;
-      margin-top: 2px;
-    }
-    .project-links {
       font-size: 8pt;
-      margin-top: 3px;
-      display: flex;
-      gap: 12px;
+      color: #334155;
+      margin-top: 1px;
+    }
+    .project-card {
+      border-left: 2.5px solid #4f46e5;
+      padding-left: 8px;
+      margin-bottom: 9px;
+      page-break-inside: avoid;
     }
     .project-stack {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px;
-      margin-top: 4px;
-    }
-    .stack-tag {
       font-size: 7.5pt;
-      background: #eff6ff;
-      border: 1px solid #bfdbfe;
-      color: #1d4ed8;
-      padding: 1px 5px;
-      border-radius: 4px;
       font-family: ui-monospace, SFMono-Regular, monospace;
+      color: #4338ca;
       font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .project-highlights {
+      margin-left: 14px;
+      margin-top: 2px;
+      font-size: 8pt;
+      color: #475569;
+    }
+    .project-highlights li {
+      margin-bottom: 1px;
+    }
+    .project-links {
+      font-size: 7.5pt;
+      margin-top: 3px;
+      display: flex;
+      gap: 10px;
     }
     .grid-2col {
       display: grid;
@@ -265,15 +300,15 @@ export const ResumeModal = ({
         <span class="contact-item">📧 ${email}</span>
         <span class="contact-item">📱 ${phone}</span>
         <span class="contact-item">📍 ${location}</span>
-        <span class="contact-item">🌐 <a href="${portfolioUrl}">${portfolioUrl}</a></span>
-        <span class="contact-item">🐙 <a href="${github}">github.com/${github.split('/').pop()}</a></span>
+        <span class="contact-item">🌐 <a href="${portfolioUrl}">${portfolioUrl.replace(/^https?:\/\//, '')}</a></span>
+        <span class="contact-item">🐙 <a href="${github}">${github.replace(/^https?:\/\//, '')}</a></span>
       </div>
     </div>
     ${photoUrl ? `<div class="photo-box"><img src="${photoUrl}" alt="${name}" /></div>` : ''}
   </div>
 
   <div class="section">
-    <div class="section-title">Professional Executive Summary</div>
+    <div class="section-title">Professional Summary</div>
     <p class="summary-text">${bio}</p>
   </div>
 
@@ -312,32 +347,34 @@ export const ResumeModal = ({
     resumeProjects.length > 0
       ? `
   <div class="section">
-    <div class="section-title">Featured Software Engineering Projects (${resumeProjects.length})</div>
+    <div class="section-title">Featured Software Architecture & Projects (${resumeProjects.length})</div>
     ${resumeProjects
-      .map(
-        (p) => `
-    <div class="item" style="border: 1px solid #e2e8f0; padding: 7px 10px; border-radius: 8px; margin-bottom: 8px; background: #fafafa;">
+      .map((p) => {
+        const data = parseProjectData(p);
+        return `
+    <div class="project-card">
       <div class="item-header">
-        <span class="item-title" style="font-size: 9.5pt;">${p.title}</span>
-        <span class="item-date">${p.date || 'Production'}</span>
+        <span class="item-title">${p.title}</span>
+        <span class="item-date">${p.date || '2025'}</span>
       </div>
-      <div class="item-desc">${p.description}</div>
+      ${data.cleanStack ? `<div class="project-stack">Stack: ${data.cleanStack}</div>` : ''}
+      <div class="item-desc">${data.overview}</div>
       ${
-        p.techStack && p.techStack.length > 0
+        data.highlights.length > 0
           ? `
-      <div class="project-stack">
-        ${p.techStack.map((t) => `<span class="stack-tag">${t}</span>`).join('')}
-      </div>
+      <ul class="project-highlights">
+        ${data.highlights.map((h) => `<li>${h}</li>`).join('')}
+      </ul>
       `
           : ''
       }
       <div class="project-links">
-        ${p.liveUrl ? `<a href="${p.liveUrl}" target="_blank">🔗 Live Demo: ${p.liveUrl}</a>` : ''}
-        ${p.githubUrl ? `<a href="${p.githubUrl}" target="_blank">📂 Source Code: ${p.githubUrl}</a>` : ''}
+        ${p.liveUrl ? `<a href="${p.liveUrl}" target="_blank">🔗 Live Demo: ${p.liveUrl.replace(/^https?:\/\//, '')}</a>` : ''}
+        ${p.githubUrl ? `<a href="${p.githubUrl}" target="_blank">📂 Source Code: ${p.githubUrl.replace(/^https?:\/\//, '')}</a>` : ''}
       </div>
     </div>
-    `
-      )
+    `;
+      })
       .join('')}
   </div>
   `
@@ -355,7 +392,7 @@ export const ResumeModal = ({
           (e) => `
       <div class="item">
         <div class="item-title" style="font-size: 9pt;">${e.title}</div>
-        <div class="item-company" style="font-size: 8.5pt;">${e.company}</div>
+        <div class="item-company" style="font-size: 8pt;">${e.company}</div>
         <div class="item-date">${e.year}</div>
       </div>
       `
@@ -376,7 +413,7 @@ export const ResumeModal = ({
           (c) => `
       <div class="item">
         <div class="item-title" style="font-size: 9pt;">${c.title}</div>
-        <div class="item-company" style="font-size: 8.5pt;">${c.issuer} (${c.issueDate})</div>
+        <div class="item-company" style="font-size: 8pt;">${c.issuer} (${c.issueDate})</div>
       </div>
       `
         )
@@ -570,48 +607,55 @@ export const ResumeModal = ({
                   </div>
                 )}
 
-                {/* Dynamic Projects with Stack & Links */}
+                {/* Dynamic Projects with Case Study Layout */}
                 {resumeProjects.length > 0 && (
-                  <div className="space-y-3 border-t border-theme pt-4">
+                  <div className="space-y-4 border-t border-theme pt-4">
                     <div className="flex items-center justify-between">
-                      <h3 className="text-xs font-bold uppercase tracking-wider text-text">Featured Software Projects</h3>
+                      <h3 className="text-xs font-bold uppercase tracking-wider text-text">Featured Software Case Studies</h3>
                       <span className="text-[10px] font-mono text-tertiary">{resumeProjects.length} Highlighted</span>
                     </div>
-                    <div className="space-y-3">
-                      {resumeProjects.map((p, idx) => (
-                        <div key={idx} className="p-3.5 rounded-2xl glass border border-theme space-y-2 text-xs">
-                          <div className="flex justify-between items-center">
-                            <span className="font-bold text-text text-sm">{p.title}</span>
-                            <span className="font-mono text-[10px] text-tertiary">{p.date || '2025'}</span>
-                          </div>
-                          <p className="text-secondary leading-relaxed">{p.description}</p>
-
-                          {/* Tech stack */}
-                          {p.techStack && p.techStack.length > 0 && (
-                            <div className="flex flex-wrap gap-1 pt-1">
-                              {p.techStack.map((t, i) => (
-                                <span key={i} className="text-[10px] px-2 py-0.5 rounded-md bg-surface text-primary border border-theme font-mono font-medium">
-                                  {t}
-                                </span>
-                              ))}
+                    <div className="space-y-4">
+                      {resumeProjects.map((p, idx) => {
+                        const data = parseProjectData(p);
+                        return (
+                          <div key={idx} className="p-4 rounded-2xl glass border border-theme space-y-2 text-xs">
+                            <div className="flex justify-between items-center">
+                              <span className="font-bold text-text text-sm">{p.title}</span>
+                              <span className="font-mono text-[10px] text-tertiary">{p.date || '2025'}</span>
                             </div>
-                          )}
 
-                          {/* Links */}
-                          <div className="flex items-center gap-3 pt-1 text-[11px] font-medium">
-                            {p.liveUrl && (
-                              <a href={p.liveUrl} target="_blank" rel="noreferrer" className="text-secondary hover:underline flex items-center gap-1">
-                                <ExternalLink className="w-3 h-3" /> Live Demo
-                              </a>
+                            {data.cleanStack && (
+                              <p className="text-[11px] font-mono font-semibold text-primary">
+                                Stack: {data.cleanStack}
+                              </p>
                             )}
-                            {p.githubUrl && (
-                              <a href={p.githubUrl} target="_blank" rel="noreferrer" className="text-tertiary hover:text-text flex items-center gap-1">
-                                <Github className="w-3 h-3" /> Source Code
-                              </a>
+
+                            <p className="text-secondary leading-relaxed">{data.overview}</p>
+
+                            {data.highlights.length > 0 && (
+                              <ul className="list-disc list-inside space-y-0.5 text-tertiary pl-1 text-[11px]">
+                                {data.highlights.map((h, i) => (
+                                  <li key={i}>{h}</li>
+                                ))}
+                              </ul>
                             )}
+
+                            {/* Links */}
+                            <div className="flex items-center gap-4 pt-1 text-[11px] font-medium border-t border-theme/50 mt-2">
+                              {p.liveUrl && (
+                                <a href={p.liveUrl} target="_blank" rel="noreferrer" className="text-secondary hover:underline flex items-center gap-1">
+                                  <ExternalLink className="w-3 h-3" /> Live Demo
+                                </a>
+                              )}
+                              {p.githubUrl && (
+                                <a href={p.githubUrl} target="_blank" rel="noreferrer" className="text-tertiary hover:text-text flex items-center gap-1">
+                                  <Github className="w-3 h-3" /> Source Code
+                                </a>
+                              )}
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   </div>
                 )}
@@ -709,29 +753,33 @@ export const ResumeModal = ({
                   <h2 className="text-xs font-bold uppercase tracking-wider text-text flex items-center gap-1.5">
                     <FolderGit2 className="w-3.5 h-3.5 text-accent" /> Featured Engineering Projects
                   </h2>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                    {resumeProjects.map((p, idx) => (
-                      <div key={p._id || idx} className="p-4 rounded-2xl glass border border-theme space-y-2 flex flex-col justify-between">
-                        <div className="space-y-1">
+                  <div className="space-y-3">
+                    {resumeProjects.map((p, idx) => {
+                      const data = parseProjectData(p);
+                      return (
+                        <div key={p._id || idx} className="p-4 rounded-2xl glass border border-theme space-y-2">
                           <div className="flex items-center justify-between">
-                            <h4 className="font-display font-bold text-xs sm:text-sm text-text truncate">{p.title}</h4>
-                            <span className="text-[10px] font-mono text-tertiary">{p.date}</span>
+                            <h4 className="font-display font-bold text-sm text-text">{p.title}</h4>
+                            <span className="text-xs font-mono text-tertiary">{p.date}</span>
                           </div>
-                          <p className="text-xs text-secondary line-clamp-2 leading-relaxed">{p.description}</p>
-                        </div>
-                        {p.techStack && (
-                          <div className="flex flex-wrap gap-1 pt-1">
-                            {p.techStack.map((t, i) => (
-                              <span key={i} className="text-[10px] px-2 py-0.5 rounded-md bg-surface text-primary border border-theme font-mono font-medium">{t}</span>
-                            ))}
+                          {data.cleanStack && (
+                            <p className="text-xs font-mono font-semibold text-primary">Stack: {data.cleanStack}</p>
+                          )}
+                          <p className="text-xs text-secondary leading-relaxed">{data.overview}</p>
+                          {data.highlights.length > 0 && (
+                            <ul className="list-disc list-inside space-y-0.5 text-tertiary text-xs">
+                              {data.highlights.map((h, i) => (
+                                <li key={i}>{h}</li>
+                              ))}
+                            </ul>
+                          )}
+                          <div className="flex items-center gap-3 pt-1 text-xs">
+                            {p.liveUrl && <a href={p.liveUrl} target="_blank" rel="noreferrer" className="text-secondary hover:underline flex items-center gap-1"><ExternalLink className="w-3 h-3" /> Live Demo</a>}
+                            {p.githubUrl && <a href={p.githubUrl} target="_blank" rel="noreferrer" className="text-tertiary hover:text-text flex items-center gap-1"><Github className="w-3 h-3" /> Code</a>}
                           </div>
-                        )}
-                        <div className="flex items-center gap-3 pt-1 text-[11px]">
-                          {p.liveUrl && <a href={p.liveUrl} target="_blank" rel="noreferrer" className="text-secondary hover:underline flex items-center gap-1"><ExternalLink className="w-3 h-3" /> Live</a>}
-                          {p.githubUrl && <a href={p.githubUrl} target="_blank" rel="noreferrer" className="text-tertiary hover:text-text flex items-center gap-1"><Github className="w-3 h-3" /> Code</a>}
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
               )}
@@ -819,21 +867,31 @@ export const ResumeModal = ({
               {resumeProjects.length > 0 && (
                 <div className="space-y-3">
                   <h2 className="text-xs font-bold uppercase tracking-wider text-black border-b border-gray-300 pb-0.5">Featured Engineering Projects</h2>
-                  <div className="space-y-2">
-                    {resumeProjects.map((p, idx) => (
-                      <div key={idx} className="text-xs space-y-1 p-2 rounded bg-gray-50 border border-gray-200">
-                        <div className="flex justify-between items-baseline font-bold text-black">
-                          <span>{p.title}</span>
-                          <span className="font-mono text-[10px] text-gray-600">{p.date}</span>
+                  <div className="space-y-2.5">
+                    {resumeProjects.map((p, idx) => {
+                      const data = parseProjectData(p);
+                      return (
+                        <div key={idx} className="text-xs space-y-1 p-3 rounded bg-gray-50 border border-gray-200">
+                          <div className="flex justify-between items-baseline font-bold text-black">
+                            <span>{p.title}</span>
+                            <span className="font-mono text-[10px] text-gray-600">{p.date}</span>
+                          </div>
+                          {data.cleanStack && (
+                            <p className="text-[10px] font-mono text-indigo-700 font-semibold">
+                              Stack: {data.cleanStack}
+                            </p>
+                          )}
+                          <p className="text-gray-700 leading-relaxed">{data.overview}</p>
+                          {data.highlights.length > 0 && (
+                            <ul className="list-disc list-inside text-gray-600 text-[10.5px] space-y-0.5">
+                              {data.highlights.map((h, i) => (
+                                <li key={i}>{h}</li>
+                              ))}
+                            </ul>
+                          )}
                         </div>
-                        <p className="text-gray-700 leading-relaxed">{p.description}</p>
-                        {p.techStack && (
-                          <p className="text-[10px] font-mono text-gray-800">
-                            <strong>Stack:</strong> {p.techStack.join(', ')}
-                          </p>
-                        )}
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
               )}
