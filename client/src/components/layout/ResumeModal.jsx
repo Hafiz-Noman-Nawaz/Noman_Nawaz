@@ -54,11 +54,11 @@ export const ResumeModal = ({
   if (!isOpen) return null;
 
   const name = settings?.fullName || 'Noman Nawaz';
-  const tagline = heroData?.title || 'Lead Full-Stack MERN Engineer & UI/UX Architect';
+  const tagline = heroData?.title || 'Full-Stack MERN Developer & UI/UX Motion Designer';
   const bio =
-    settings?.bio ||
     heroData?.subtitle ||
-    'High-velocity Full-Stack Engineer specializing in distributed Node.js architectures, React 19 visual systems, real-time WebSocket infrastructure, and high-conversion web applications.';
+    settings?.bio ||
+    'Crafting scalable full-stack web applications, high-contrast visual systems, and physics-driven micro-interactions with React, Node.js, and MongoDB.';
   const photoUrl = heroData?.imageUrl || '';
   const email = settings?.email || 'nawaznoman7766@gmail.com';
   const phone = settings?.phone || '+92 300 1234567';
