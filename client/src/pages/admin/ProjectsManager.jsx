@@ -1,6 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { getProjects, createProject, updateProject, deleteProject } from '../../services/api';
-import { Plus, Edit2, Trash2, Image, Layers, Save, X, CheckCircle2, AlertCircle, RefreshCw, Zap, Video } from 'lucide-react';
+import {
+  Plus,
+  Edit2,
+  Trash2,
+  Image,
+  Layers,
+  Save,
+  X,
+  CheckCircle2,
+  AlertCircle,
+  RefreshCw,
+  Zap,
+  Video,
+  FileText,
+  Check,
+} from 'lucide-react';
 
 export const ProjectsManager = () => {
   const [projects, setProjects] = useState([]);
@@ -28,6 +43,7 @@ export const ProjectsManager = () => {
   const [galleryPreviews, setGalleryPreviews] = useState([]);
   const [existingGallery, setExistingGallery] = useState([]);
   const [featured, setFeatured] = useState(false);
+  const [showOnResume, setShowOnResume] = useState(true);
   const [order, setOrder] = useState(0);
 
   useEffect(() => {
@@ -66,6 +82,7 @@ export const ProjectsManager = () => {
     setGalleryPreviews([]);
     setExistingGallery([]);
     setFeatured(false);
+    setShowOnResume(true);
     setOrder(projects.length + 1);
     setIsEditing(true);
   };
@@ -87,8 +104,21 @@ export const ProjectsManager = () => {
     setGalleryPreviews([]);
     setExistingGallery(proj.gallery || []);
     setFeatured(proj.featured || false);
+    setShowOnResume(proj.showOnResume !== false);
     setOrder(proj.order || 0);
     setIsEditing(true);
+  };
+
+  const toggleResumeStatus = async (proj) => {
+    try {
+      const nextVal = proj.showOnResume === false ? true : false;
+      const data = new FormData();
+      data.append('showOnResume', nextVal);
+      await updateProject(proj._id, data);
+      setProjects(projects.map((p) => (p._id === proj._id ? { ...p, showOnResume: nextVal } : p)));
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const handleAddTech = (e) => {
@@ -159,6 +189,7 @@ export const ProjectsManager = () => {
       data.append('techStack', JSON.stringify(techStack));
       data.append('metrics', JSON.stringify(metrics));
       data.append('featured', featured);
+      data.append('showOnResume', showOnResume);
       data.append('order', order);
 
       if (thumbnailFile) {
@@ -217,21 +248,20 @@ export const ProjectsManager = () => {
         <div>
           <h2 className="text-2xl font-display font-bold tracking-tight text-text">Projects & Case Studies CMS</h2>
           <p className="text-sm text-secondary mt-1">
-            Manage your showcase projects, tech stacks, performance metrics, and in-depth case study markdown.
+            Manage showcase projects, descriptions, tech stacks, and toggle them for your Executive Resume.
           </p>
         </div>
 
-        {!isEditing && (
-          <button
-            onClick={openNewForm}
-            className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-primary hover:bg-primary/90 text-white font-bold shadow-lg shadow-primary/30 hover:scale-105 transition-all text-xs"
-          >
-            <Plus className="w-4 h-4" />
-            <span>Add New Project</span>
-          </button>
-        )}
+        <button
+          onClick={openNewForm}
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-primary text-white text-xs font-bold shadow-lg shadow-primary/30 hover:scale-105 transition-all self-start sm:self-auto"
+        >
+          <Plus className="w-4 h-4" />
+          <span>New Project</span>
+        </button>
       </div>
 
+      {/* Notification Toast */}
       {status.message && (
         <div
           className={`p-4 rounded-2xl flex items-center gap-3 text-sm font-semibold ${
@@ -293,12 +323,12 @@ export const ProjectsManager = () => {
 
             <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-secondary mb-1.5">
-                Short Description (Grid Card View) *
+                Short Description (Grid Card & Resume View) *
               </label>
               <textarea
                 rows={2}
                 required
-                placeholder="A concise synopsis of the project and its core impact..."
+                placeholder="A concise synopsis of the project and its core architecture..."
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 className="w-full px-4 py-3 rounded-2xl glass text-sm text-text focus:outline-none focus:border-theme-glow resize-none"
@@ -411,6 +441,33 @@ export const ProjectsManager = () => {
               </div>
             </div>
 
+            {/* Toggle Switches */}
+            <div className="flex flex-wrap items-center gap-6 p-4 rounded-2xl bg-surface/50 border border-theme">
+              <label className="flex items-center gap-2.5 cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  checked={showOnResume}
+                  onChange={(e) => setShowOnResume(e.target.checked)}
+                  className="w-4 h-4 rounded border-theme text-primary focus:ring-primary"
+                />
+                <span className="text-xs font-bold text-text flex items-center gap-1.5">
+                  <FileText className="w-3.5 h-3.5 text-primary" /> Show in Executive Resume (PDF)
+                </span>
+              </label>
+
+              <label className="flex items-center gap-2.5 cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  checked={featured}
+                  onChange={(e) => setFeatured(e.target.checked)}
+                  className="w-4 h-4 rounded border-theme text-primary focus:ring-primary"
+                />
+                <span className="text-xs font-bold text-text">
+                  Featured Project (Homepage Spotlight)
+                </span>
+              </label>
+            </div>
+
             {/* Thumbnail & Gallery */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4 border-t border-theme">
               <div>
@@ -510,48 +567,68 @@ export const ProjectsManager = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((proj) => (
-            <div
-              key={proj._id}
-              className="p-5 rounded-3xl glass bg-bg-secondary/70 border border-theme flex flex-col justify-between group"
-            >
-              <div>
-                <div className="relative aspect-[16/10] rounded-2xl overflow-hidden mb-4 bg-bg">
-                  <img src={proj.thumbnail} alt={proj.title} className="w-full h-full object-cover" />
-                  <span className="absolute top-2 left-2 px-2.5 py-0.5 rounded-full text-[10px] font-semibold glass text-white">
-                    {proj.date}
-                  </span>
-                </div>
-                <h4 className="text-base font-bold text-text line-clamp-1">{proj.title}</h4>
-                <p className="text-xs text-secondary mt-1 line-clamp-2">{proj.description}</p>
-              </div>
-
-              <div className="mt-4 pt-4 border-t border-theme flex items-center justify-between">
-                <div className="flex items-center gap-1">
-                  {proj.techStack?.slice(0, 2).map((t, i) => (
-                    <span key={i} className="text-[10px] px-2 py-0.5 rounded bg-bg text-secondary font-mono">
-                      {t}
+          {projects.map((proj) => {
+            const onResume = proj.showOnResume !== false;
+            return (
+              <div
+                key={proj._id}
+                className="p-5 rounded-3xl glass bg-bg-secondary/70 border border-theme flex flex-col justify-between group"
+              >
+                <div>
+                  <div className="relative aspect-[16/10] rounded-2xl overflow-hidden mb-4 bg-bg">
+                    <img src={proj.thumbnail} alt={proj.title} className="w-full h-full object-cover" />
+                    <span className="absolute top-2 left-2 px-2.5 py-0.5 rounded-full text-[10px] font-semibold glass text-white">
+                      {proj.date}
                     </span>
-                  ))}
+
+                    {/* Quick Resume Toggle Pill */}
+                    <button
+                      type="button"
+                      onClick={() => toggleResumeStatus(proj)}
+                      className={`absolute top-2 right-2 px-2.5 py-1 rounded-full text-[10px] font-bold transition-all flex items-center gap-1 shadow-md ${
+                        onResume
+                          ? 'bg-emerald-500 text-white'
+                          : 'bg-black/60 backdrop-blur-md text-gray-300 hover:text-white'
+                      }`}
+                      title={onResume ? 'Click to hide from Resume' : 'Click to show on Resume'}
+                    >
+                      <FileText className="w-3 h-3" />
+                      <span>{onResume ? 'On Resume' : 'Hidden'}</span>
+                    </button>
+                  </div>
+                  <h4 className="text-base font-bold text-text line-clamp-1">{proj.title}</h4>
+                  <p className="text-xs text-secondary mt-1 line-clamp-2">{proj.description}</p>
                 </div>
 
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => openEditForm(proj)}
-                    className="p-2 rounded-xl glass hover:text-primary transition-colors"
-                  >
-                    <Edit2 className="w-4 h-4" />
-                  </button>
-                  <button
-                    onClick={() => handleDelete(proj._id)}
-                    className="p-2 rounded-xl glass hover:text-rose-400 transition-colors"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
+                <div className="mt-4 pt-4 border-t border-theme flex items-center justify-between">
+                  <div className="flex items-center gap-1 overflow-hidden">
+                    {proj.techStack?.slice(0, 2).map((t, i) => (
+                      <span key={i} className="text-[10px] px-2 py-0.5 rounded bg-bg text-secondary font-mono">
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => openEditForm(proj)}
+                      className="p-2 rounded-xl glass hover:text-primary transition-colors"
+                      title="Edit Full Project"
+                    >
+                      <Edit2 className="w-4 h-4" />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(proj._id)}
+                      className="p-2 rounded-xl glass hover:text-rose-400 transition-colors"
+                      title="Delete Project"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>

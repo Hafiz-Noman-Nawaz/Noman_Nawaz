@@ -215,3 +215,16 @@ body[data-theme="contrast"] .gradient-text-vibrant {
   background: var(--color-primary);
   color: #ffffff;
 }
+
+/* ── Global Print Optimization ── */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 10mm 12mm;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #0f172a !important;
+  }
+}

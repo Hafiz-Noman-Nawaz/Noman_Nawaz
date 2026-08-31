@@ -75,6 +75,7 @@ router.post(
         previewVideo,
         metrics,
         featured,
+        showOnResume,
         order,
         thumbnailUrl: manualThumbnailUrl,
       } = req.body;
@@ -141,6 +142,7 @@ router.post(
         previewVideo: previewVideo || '',
         metrics: parsedMetrics,
         featured: featured === 'true' || featured === true,
+        showOnResume: showOnResume !== 'false' && showOnResume !== false,
         order: Number(order) || 0,
       });
 
@@ -191,6 +193,7 @@ router.put(
         previewVideo,
         metrics,
         featured,
+        showOnResume,
         order,
         thumbnailUrl: manualThumbnailUrl,
         existingGallery,
@@ -204,6 +207,7 @@ router.put(
       if (githubUrl !== undefined) project.githubUrl = githubUrl;
       if (previewVideo !== undefined) project.previewVideo = previewVideo;
       if (featured !== undefined) project.featured = featured === 'true' || featured === true;
+      if (showOnResume !== undefined) project.showOnResume = showOnResume === 'true' || showOnResume === true;
       if (order !== undefined) project.order = Number(order);
 
       // Parse metrics
