@@ -5,6 +5,7 @@ import HeroSection from '../components/hero/HeroSection';
 import SkillsWheel from '../components/skills/SkillsWheel';
 import PhysicsSandbox from '../components/skills/PhysicsSandbox';
 import ProjectsGallery from '../components/projects/ProjectsGallery';
+import ArchitectureRadarSection from '../components/skills/ArchitectureRadarSection';
 import CodePlaygroundSection from '../components/code/CodePlaygroundSection';
 import GitHubActivitySection from '../components/github/GitHubActivitySection';
 import TimelineSection from '../components/timeline/TimelineSection';
@@ -21,6 +22,7 @@ const CommandPalette = lazy(() => import('../components/layout/CommandPalette'))
 const ResumeModal = lazy(() => import('../components/layout/ResumeModal'));
 const InteractiveTerminal = lazy(() => import('../components/layout/InteractiveTerminal'));
 const ProjectEstimatorModal = lazy(() => import('../components/layout/ProjectEstimatorModal'));
+const HireMeModal = lazy(() => import('../components/layout/HireMeModal'));
 
 export const Home = () => {
   const [heroData, setHeroData] = useState(null);
@@ -35,6 +37,7 @@ export const Home = () => {
   const [isResumeOpen, setIsResumeOpen] = useState(false);
   const [isTerminalOpen, setIsTerminalOpen] = useState(false);
   const [isEstimatorOpen, setIsEstimatorOpen] = useState(false);
+  const [isHireMeOpen, setIsHireMeOpen] = useState(false);
   const [contactPrefill, setContactPrefill] = useState('');
 
   useEffect(() => {
@@ -104,6 +107,7 @@ export const Home = () => {
         onOpenCommand={() => setIsCommandOpen(true)}
         onOpenResume={() => setIsResumeOpen(true)}
         onOpenTerminal={() => setIsTerminalOpen(true)}
+        onOpenHireMe={() => setIsHireMeOpen(true)}
       />
 
       {/* Main Content Sections */}
@@ -111,10 +115,12 @@ export const Home = () => {
         <HeroSection
           heroData={heroData}
           onOpenEstimator={() => setIsEstimatorOpen(true)}
+          onOpenHireMe={() => setIsHireMeOpen(true)}
         />
         <SkillsWheel skills={settings?.skills || []} />
         <PhysicsSandbox skills={settings?.skills || []} />
         <ProjectsGallery projects={projects} />
+        <ArchitectureRadarSection />
         <CodePlaygroundSection />
         <GitHubActivitySection />
         <TimelineSection milestones={timeline} />
@@ -130,7 +136,10 @@ export const Home = () => {
       <Footer settings={settings} />
 
       {/* Live Status Dynamic Island Widget */}
-      <StatusWidget settings={settings} />
+      <StatusWidget
+        settings={settings}
+        onOpenHireMe={() => setIsHireMeOpen(true)}
+      />
 
       {/* Lazy Loaded Modals */}
       <Suspense fallback={null}>
@@ -172,6 +181,13 @@ export const Home = () => {
             isOpen={isEstimatorOpen}
             onClose={() => setIsEstimatorOpen(false)}
             onPreFillContact={(msg) => setContactPrefill(msg)}
+          />
+        )}
+
+        {isHireMeOpen && (
+          <HireMeModal
+            isOpen={isHireMeOpen}
+            onClose={() => setIsHireMeOpen(false)}
           />
         )}
       </Suspense>

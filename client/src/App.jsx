@@ -8,21 +8,24 @@ import ErrorBoundary from './components/layout/ErrorBoundary';
 import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider } from './context/AuthContext';
 import { SoundProvider } from './context/SoundContext';
+import { LanguageProvider } from './context/LanguageContext';
 
 function App() {
   return (
     <ErrorBoundary>
       <ThemeProvider>
         <AuthProvider>
-          <SoundProvider>
-            <CustomCursor />
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/admin" element={<Dashboard />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
-          </SoundProvider>
+          <LanguageProvider>
+            <SoundProvider>
+              <CustomCursor />
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/admin" element={<Dashboard />} />
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Routes>
+            </SoundProvider>
+          </LanguageProvider>
         </AuthProvider>
       </ThemeProvider>
     </ErrorBoundary>

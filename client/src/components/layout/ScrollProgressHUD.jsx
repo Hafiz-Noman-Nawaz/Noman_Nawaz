@@ -11,6 +11,7 @@ export const ScrollProgressHUD = () => {
     { id: 'hero', label: 'Intro' },
     { id: 'skills', label: 'Stack' },
     { id: 'projects', label: 'Work' },
+    { id: 'architecture-radar', label: 'Radar' },
     { id: 'code-playground', label: 'Code' },
     { id: 'github-activity', label: 'GitHub' },
     { id: 'timeline', label: 'Journey' },

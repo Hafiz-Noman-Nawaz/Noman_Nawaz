@@ -13,16 +13,22 @@ import {
   Shield,
   ArrowUpRight,
   Terminal,
+  Globe,
+  Radio,
+  Sparkles,
 } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 import { useSound } from '../../context/SoundContext';
+import { useLanguage } from '../../context/LanguageContext';
 import { Link, useLocation } from 'react-router-dom';
 
-export const Navbar = ({ onOpenCommand, onOpenResume, onOpenTerminal }) => {
+export const Navbar = ({ onOpenCommand, onOpenResume, onOpenTerminal, onOpenHireMe }) => {
   const { theme, cycleTheme } = useTheme();
-  const { soundEnabled, toggleSound, playClick } = useSound();
+  const { soundEnabled, toggleSound, ambientPlaying, toggleAmbient, playClick } = useSound();
+  const { lang, changeLanguage, t } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [langMenuOpen, setLangMenuOpen] = useState(false);
   const location = useLocation();
   const isHomePage = location.pathname === '/';
 
@@ -35,12 +41,19 @@ export const Navbar = ({ onOpenCommand, onOpenResume, onOpenTerminal }) => {
   }, []);
 
   const navLinks = [
-    { name: 'Work', href: '#projects' },
-    { name: 'Skills', href: '#skills' },
-    { name: 'Experience', href: '#timeline' },
-    { name: 'Certifications', href: '#certificates' },
-    { name: 'Testimonials', href: '#testimonials' },
-    { name: 'Contact', href: '#contact' },
+    { name: t.nav.work, href: '#projects' },
+    { name: t.nav.skills, href: '#skills' },
+    { name: t.nav.experience, href: '#timeline' },
+    { name: t.nav.certifications, href: '#certificates' },
+    { name: t.nav.testimonials, href: '#testimonials' },
+    { name: t.nav.contact, href: '#contact' },
+  ];
+
+  const languages = [
+    { code: 'en', label: 'English', flag: '🇺🇸' },
+    { code: 'ur', label: 'اردو', flag: '🇵🇰' },
+    { code: 'de', label: 'Deutsch', flag: '🇩🇪' },
+    { code: 'es', label: 'Español', flag: '🇪🇸' },
   ];
 
   const getThemeIcon = () => {
@@ -58,7 +71,7 @@ export const Navbar = ({ onOpenCommand, onOpenResume, onOpenTerminal }) => {
         scrolled ? 'py-2.5 sm:py-3' : 'py-3.5 sm:py-5'
       }`}
     >
-      <div className="max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 w-full">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 w-full">
         <nav
           className={`flex items-center justify-between px-3.5 sm:px-5 py-2 sm:py-3 rounded-full transition-all duration-300 w-full ${
             scrolled
@@ -79,13 +92,13 @@ export const Navbar = ({ onOpenCommand, onOpenResume, onOpenTerminal }) => {
 
           {/* Desktop Nav Links */}
           {isHomePage && (
-            <div className="hidden md:flex items-center gap-1">
+            <div className="hidden lg:flex items-center gap-1">
               {navLinks.map((link) => (
                 <a
                   key={link.name}
                   href={link.href}
                   onClick={playClick}
-                  className="px-3.5 py-1.5 rounded-full text-xs font-semibold text-secondary hover:text-text hover:bg-surface transition-all"
+                  className="px-3 py-1.5 rounded-full text-xs font-semibold text-secondary hover:text-text hover:bg-surface transition-all"
                 >
                   {link.name}
                 </a>
@@ -94,7 +107,7 @@ export const Navbar = ({ onOpenCommand, onOpenResume, onOpenTerminal }) => {
           )}
 
           {/* Desktop Action Center */}
-          <div className="hidden md:flex items-center gap-2">
+          <div className="hidden md:flex items-center gap-1.5 sm:gap-2">
             {/* Quick Search */}
             <button
               onClick={() => {
@@ -102,13 +115,10 @@ export const Navbar = ({ onOpenCommand, onOpenResume, onOpenTerminal }) => {
                 if (onOpenCommand) onOpenCommand();
               }}
               title="Open Command Palette (Cmd + K)"
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full glass hover:border-theme-glow text-xs font-semibold text-secondary hover:text-text transition-all"
+              className="flex items-center gap-1 px-2.5 py-1.5 rounded-full glass hover:border-theme-glow text-xs font-semibold text-secondary hover:text-text transition-all"
             >
               <Search className="w-3.5 h-3.5 text-primary" />
-              <span className="text-[11px]">Search</span>
-              <kbd className="px-1.5 py-0.5 rounded text-[9px] font-mono bg-bg text-tertiary border border-theme">
-                ⌘K
-              </kbd>
+              <span className="text-[11px]">⌘K</span>
             </button>
 
             {/* Resume Button */}
@@ -121,7 +131,7 @@ export const Navbar = ({ onOpenCommand, onOpenResume, onOpenTerminal }) => {
               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full glass hover:border-theme-glow text-xs font-semibold text-text hover:text-primary transition-all"
             >
               <FileText className="w-3.5 h-3.5 text-secondary" />
-              <span>Resume</span>
+              <span>{t.nav.resume}</span>
             </button>
 
             {/* Terminal Trigger */}
@@ -130,22 +140,73 @@ export const Navbar = ({ onOpenCommand, onOpenResume, onOpenTerminal }) => {
                 playClick();
                 if (onOpenTerminal) onOpenTerminal();
               }}
-              title="Open Interactive Terminal (~ / Backtick)"
+              title="Open Interactive Terminal (~)"
               className="p-2 rounded-full glass hover:border-theme-glow text-secondary hover:text-primary transition-all"
             >
               <Terminal className="w-4 h-4" />
             </button>
 
-            {/* Sound FX Audio Toggle */}
+            {/* Ambient Drone Sound Toggle */}
+            <button
+              onClick={() => {
+                playClick();
+                toggleAmbient();
+              }}
+              title={`Cosmic Ambient Sound: ${ambientPlaying ? 'ON' : 'OFF'}`}
+              className={`p-2 rounded-full glass hover:border-theme-glow transition-all ${
+                ambientPlaying ? 'text-secondary bg-secondary/15 animate-pulse' : 'text-tertiary opacity-70'
+              }`}
+            >
+              <Radio className="w-4 h-4" />
+            </button>
+
+            {/* UI Sound Effects Toggle */}
             <button
               onClick={toggleSound}
-              title={`UI Sound Effects: ${soundEnabled ? 'Enabled' : 'Muted'}`}
+              title={`UI Sound FX: ${soundEnabled ? 'Enabled' : 'Muted'}`}
               className={`p-2 rounded-full glass hover:border-theme-glow transition-all ${
                 soundEnabled ? 'text-primary' : 'text-tertiary opacity-70'
               }`}
             >
               {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4 opacity-60" />}
             </button>
+
+            {/* Language Dropdown Selector */}
+            <div className="relative">
+              <button
+                onClick={() => {
+                  playClick();
+                  setLangMenuOpen(!langMenuOpen);
+                }}
+                className="flex items-center gap-1 px-2.5 py-1.5 rounded-full glass hover:border-theme-glow text-xs font-bold text-text uppercase font-mono"
+              >
+                <Globe className="w-3.5 h-3.5 text-primary" />
+                <span>{lang}</span>
+              </button>
+
+              {langMenuOpen && (
+                <div className="absolute right-0 mt-2 w-32 rounded-2xl glass bg-bg-secondary/95 border-2 border-theme-glow p-1.5 shadow-2xl space-y-1 z-50">
+                  {languages.map((l) => (
+                    <button
+                      key={l.code}
+                      onClick={() => {
+                        playClick();
+                        changeLanguage(l.code);
+                        setLangMenuOpen(false);
+                      }}
+                      className={`w-full flex items-center justify-between px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                        lang === l.code
+                          ? 'bg-primary text-white shadow-sm'
+                          : 'text-secondary hover:bg-surface hover:text-text'
+                      }`}
+                    >
+                      <span>{l.label}</span>
+                      <span>{l.flag}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
 
             {/* Theme Toggle */}
             <button
@@ -159,19 +220,33 @@ export const Navbar = ({ onOpenCommand, onOpenResume, onOpenTerminal }) => {
               {getThemeIcon()}
             </button>
 
-            {/* CMS Portal */}
-            <Link
-              to="/admin"
-              onClick={playClick}
-              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-primary/15 hover:bg-primary/25 border border-primary/30 text-primary text-xs font-bold transition-all"
+            {/* ⚡ Hire Me CTA Button */}
+            <button
+              onClick={() => {
+                playClick();
+                if (onOpenHireMe) onOpenHireMe();
+              }}
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-white text-xs font-bold shadow-md shadow-primary/25 transition-all hover:scale-105"
             >
-              <Shield className="w-3.5 h-3.5" />
-              <span>CMS</span>
-            </Link>
+              <Zap className="w-3.5 h-3.5 fill-white" />
+              <span>{t.nav.hireMe}</span>
+            </button>
           </div>
 
-          {/* Mobile Right Controls: Only Theme + Hamburger (Guaranteed 0% overflow) */}
+          {/* Mobile Controls */}
           <div className="flex md:hidden items-center gap-1.5">
+            {/* Mobile Lang Button */}
+            <button
+              onClick={() => {
+                playClick();
+                const nextLang = lang === 'en' ? 'ur' : lang === 'ur' ? 'de' : lang === 'de' ? 'es' : 'en';
+                changeLanguage(nextLang);
+              }}
+              className="p-2 rounded-xl glass text-xs font-mono font-bold text-text uppercase"
+            >
+              {lang}
+            </button>
+
             <button
               onClick={() => {
                 playClick();
@@ -208,6 +283,18 @@ export const Navbar = ({ onOpenCommand, onOpenResume, onOpenTerminal }) => {
             exit={{ opacity: 0, y: -10 }}
             className="md:hidden mx-3 mt-2 p-5 rounded-3xl glass border-2 border-theme-glow bg-bg-secondary/98 shadow-2xl space-y-4 max-h-[85vh] overflow-y-auto"
           >
+            {/* Quick Hire CTA */}
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                if (onOpenHireMe) onOpenHireMe();
+              }}
+              className="w-full py-3 rounded-2xl bg-gradient-to-r from-primary to-secondary text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-primary/30"
+            >
+              <Zap className="w-4 h-4 fill-white" />
+              <span>⚡ Fast-Track Hire Inquiry</span>
+            </button>
+
             {/* Quick Action Buttons Row */}
             <div className="grid grid-cols-2 gap-2 pb-3 border-b border-theme">
               <button
@@ -266,11 +353,13 @@ export const Navbar = ({ onOpenCommand, onOpenResume, onOpenTerminal }) => {
                 </button>
 
                 <button
-                  onClick={toggleSound}
-                  className="p-2.5 rounded-2xl glass hover:bg-surface text-xs font-bold text-text flex items-center justify-center gap-2 border border-theme"
+                  onClick={toggleAmbient}
+                  className={`p-2.5 rounded-2xl glass hover:bg-surface text-xs font-bold flex items-center justify-center gap-2 border border-theme ${
+                    ambientPlaying ? 'text-secondary border-secondary' : 'text-text'
+                  }`}
                 >
-                  {soundEnabled ? <Volume2 className="w-3.5 h-3.5 text-primary" /> : <VolumeX className="w-3.5 h-3.5 opacity-60" />}
-                  <span>Sound: {soundEnabled ? 'ON' : 'MUTED'}</span>
+                  <Radio className="w-3.5 h-3.5" />
+                  <span>Space Synth: {ambientPlaying ? 'ON' : 'OFF'}</span>
                 </button>
               </div>
 

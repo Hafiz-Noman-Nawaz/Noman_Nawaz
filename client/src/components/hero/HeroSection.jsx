@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { ArrowRight, Sparkles, Code2, Layers, Cpu } from 'lucide-react';
+import { ArrowRight, Sparkles, Code2, Layers, Cpu, Zap } from 'lucide-react';
 import { useTilt } from '../../hooks/useTilt';
+import { useLanguage } from '../../context/LanguageContext';
 
-export const HeroSection = ({ heroData, onOpenEstimator }) => {
+export const HeroSection = ({ heroData, onOpenEstimator, onOpenHireMe }) => {
   const { ref, style, glare, onMouseMove, onMouseLeave } = useTilt(12, 1100, 1.02);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const { t } = useLanguage();
 
   const photoUrl = heroData?.imageUrl;
 
@@ -99,15 +101,23 @@ export const HeroSection = ({ heroData, onOpenEstimator }) => {
                 href="#projects"
                 className="w-full sm:w-auto group relative inline-flex items-center justify-center gap-3 px-7 py-3.5 sm:py-4 rounded-2xl bg-primary text-white font-bold text-xs sm:text-sm shadow-lg shadow-primary/30 hover:scale-105 transition-all duration-300"
               >
-                <span>{heroData?.ctaText || 'Explore Projects'}</span>
+                <span>{heroData?.ctaText || t.hero.ctaExplore}</span>
                 <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
               </a>
+
+              <button
+                onClick={onOpenHireMe}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 sm:py-4 rounded-2xl bg-gradient-to-r from-secondary/20 to-primary/20 border border-secondary/40 hover:border-secondary text-text font-bold text-xs sm:text-sm transition-all duration-300 hover:scale-105 shadow-md"
+              >
+                <Zap className="w-4 h-4 text-secondary fill-secondary" />
+                <span>{t.hero.ctaHire}</span>
+              </button>
 
               <button
                 onClick={onOpenEstimator}
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 sm:py-4 rounded-2xl glass hover:bg-surface-hover hover:border-theme-glow text-text font-bold text-xs sm:text-sm transition-all duration-300 hover:scale-105"
               >
-                <span>Scope Estimator</span>
+                <span>{t.hero.ctaEstimator}</span>
                 <Sparkles className="w-4 h-4 text-accent" />
               </button>
             </motion.div>
