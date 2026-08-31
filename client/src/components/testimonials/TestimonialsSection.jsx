@@ -158,9 +158,9 @@ export const TestimonialsSection = ({ testimonials = [] }) => {
 
       {/* Leave Review Modal */}
       <LeaveReviewModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSuccess={handleNewTestimonial}
+        isOpen={isReviewModalOpen}
+        onClose={() => setIsReviewModalOpen(false)}
+        onSuccess={handleTestimonialAdded}
       />
     </section>
   );
