@@ -10,6 +10,7 @@ import MessagesManager from './MessagesManager';
 import TestimonialsManager from './TestimonialsManager';
 import TimelineManager from './TimelineManager';
 import CertificatesManager from './CertificatesManager';
+import AnalyticsManager from './AnalyticsManager';
 import { getMessages } from '../../services/api';
 import {
   Sparkles,
@@ -24,6 +25,7 @@ import {
   ArrowUpRight,
   Sun,
   Moon,
+  BarChart3,
 } from 'lucide-react';
 
 export const Dashboard = () => {
@@ -82,6 +84,7 @@ export const Dashboard = () => {
   };
 
   const navItems = [
+    { id: 'analytics', label: 'Analytics & Insights', icon: BarChart3 },
     { id: 'hero', label: 'Hero Section', icon: Sparkles },
     { id: 'skills', label: 'Skills & Tech Stack', icon: Zap },
     { id: 'projects', label: 'Projects & Work', icon: FolderGit2 },
@@ -163,6 +166,7 @@ export const Dashboard = () => {
 
       {/* Main Workspace */}
       <main className="flex-grow p-6 sm:p-10 max-w-5xl overflow-y-auto">
+        {activeTab === 'analytics' && <AnalyticsManager />}
         {activeTab === 'hero' && <HeroManager />}
         {activeTab === 'skills' && <SkillsManager />}
         {activeTab === 'projects' && <ProjectsManager />}

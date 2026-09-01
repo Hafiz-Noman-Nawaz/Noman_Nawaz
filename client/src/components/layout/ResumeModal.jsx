@@ -23,6 +23,7 @@ import {
   Zap,
 } from 'lucide-react';
 import { useSound } from '../../context/SoundContext';
+import { logEvent } from '../../utils/analytics';
 
 export const ResumeModal = ({
   isOpen,
@@ -114,6 +115,7 @@ export const ResumeModal = ({
   // Dedicated Print Generator that renders the EXACT active layoutMode
   const handlePrint = () => {
     playClick();
+    logEvent('resume_download', layoutMode);
 
     let printHtmlBody = '';
 

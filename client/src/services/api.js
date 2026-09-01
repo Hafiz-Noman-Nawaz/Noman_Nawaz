@@ -104,4 +104,10 @@ export const updateCertificate = (id, formData) =>
   });
 export const deleteCertificate = (id) => API.delete(`/certificates/${id}`);
 
+// Analytics Endpoints
+export const trackAnalyticsEvent = (data) => API.post('/analytics/track', data);
+export const getAnalyticsStats = () => API.get('/analytics/stats');
+export const resetAnalytics = () => API.delete('/analytics/reset');
+
 export default API;
+

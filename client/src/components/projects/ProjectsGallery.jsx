@@ -5,6 +5,7 @@ import ProjectCard from './ProjectCard';
 import ProjectModal from './ProjectModal';
 import { useSound } from '../../context/SoundContext';
 import { useLanguage } from '../../context/LanguageContext';
+import { logEvent } from '../../utils/analytics';
 
 export const ProjectsGallery = ({ projects = [] }) => {
   const { t } = useLanguage();
@@ -119,7 +120,10 @@ export const ProjectsGallery = ({ projects = [] }) => {
                 <ProjectCard
                   project={project}
                   index={idx}
-                  onSelect={(p) => setSelectedProject(p)}
+                  onSelect={(p) => {
+                    logEvent('project_click', p.title);
+                    setSelectedProject(p);
+                  }}
                 />
               </motion.div>
             ))}

@@ -78,6 +78,10 @@ app.use('/timeline', timelineRoutes);
 app.use('/api/certificates', certificatesRoutes);
 app.use('/certificates', certificatesRoutes);
 
+const analyticsRoutes = require('./routes/analytics');
+app.use('/api/analytics', analyticsRoutes);
+app.use('/analytics', analyticsRoutes);
+
 // Global Error Handler
 app.use((err, req, res, next) => {
   console.error('Unhandled Error:', err.stack || err.message);

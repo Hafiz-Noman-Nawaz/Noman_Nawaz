@@ -14,6 +14,7 @@ import Footer from '../components/layout/Footer';
 import StatusWidget from '../components/layout/StatusWidget';
 import ScrollProgressHUD from '../components/layout/ScrollProgressHUD';
 import { getHero, getProjects, getSettings, getTestimonials, getTimeline, getCertificates } from '../services/api';
+import { logEvent } from '../utils/analytics';
 
 // Lazy load modals for maximum initial load performance & minimal bundle weight
 const CommandPalette = lazy(() => import('../components/layout/CommandPalette'));
@@ -39,6 +40,9 @@ export const Home = () => {
   const [contactPrefill, setContactPrefill] = useState('');
 
   useEffect(() => {
+    // Record privacy-friendly page visit
+    logEvent('pageview');
+
     const fetchPortfolioData = async () => {
       try {
         const [heroRes, projectsRes, settingsRes, testimonialsRes, timelineRes, certsRes] = await Promise.allSettled([
