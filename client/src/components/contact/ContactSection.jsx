@@ -57,10 +57,11 @@ export const ContactSection = ({ settings, preFillMessage = '' }) => {
   const location = settings?.location || 'Pakistan (Available Worldwide / Remote)';
 
   const socials = [
-    { name: 'GitHub', url: settings?.github || 'https://github.com/Hafiz-Noman-Nawaz' },
-    { name: 'LinkedIn', url: settings?.linkedin || 'https://linkedin.com' },
-    { name: 'Twitter / X', url: settings?.twitter || 'https://twitter.com' },
-  ];
+    { name: 'GitHub', url: settings?.github },
+    { name: 'LinkedIn', url: settings?.linkedin },
+    { name: 'Twitter / X', url: settings?.twitter },
+    { name: 'Instagram', url: settings?.instagram },
+  ].filter((s) => s.url && typeof s.url === 'string' && s.url.trim() !== '');
 
   return (
     <section id="contact" className="relative py-28 z-10 overflow-hidden">
@@ -200,31 +201,33 @@ export const ContactSection = ({ settings, preFillMessage = '' }) => {
             </motion.div>
 
             {/* Socials Link Row */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
-              className="p-4 sm:p-6 rounded-3xl glass-card flex flex-wrap items-center justify-between gap-3"
-            >
-              <span className="text-xs font-bold uppercase tracking-wider text-tertiary">
-                Social Profiles
-              </span>
-              <div className="flex items-center gap-2">
-                {socials.map((social) => (
-                  <a
-                    key={social.name}
-                    href={social.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="px-3 py-1.5 rounded-xl glass hover:border-theme-glow hover:text-primary text-xs font-bold transition-all hover:scale-105 flex items-center gap-1 text-text"
-                  >
-                    <span>{social.name}</span>
-                    <ArrowUpRight className="w-3 h-3" />
-                  </a>
-                ))}
-              </div>
-            </motion.div>
+            {socials.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3 }}
+                className="p-4 sm:p-6 rounded-3xl glass-card flex flex-wrap items-center justify-between gap-3"
+              >
+                <span className="text-xs font-bold uppercase tracking-wider text-tertiary">
+                  Social Profiles
+                </span>
+                <div className="flex items-center gap-2">
+                  {socials.map((social) => (
+                    <a
+                      key={social.name}
+                      href={social.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="px-3 py-1.5 rounded-xl glass hover:border-theme-glow hover:text-primary text-xs font-bold transition-all hover:scale-105 flex items-center gap-1 text-text"
+                    >
+                      <span>{social.name}</span>
+                      <ArrowUpRight className="w-3 h-3" />
+                    </a>
+                  ))}
+                </div>
+              </motion.div>
+            )}
           </div>
 
           {/* Right Column: Direct Message Form */}

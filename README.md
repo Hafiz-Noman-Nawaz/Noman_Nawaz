@@ -1,6 +1,6 @@
 # ⚡ Noman Nawaz — Ultra-Premium 3D Interactive Portfolio & Headless CMS
 
-> **An Awwwards-caliber, high-performance developer portfolio and headless Content Management System (CMS) engineered with React 19, Node.js, Express, MongoDB Atlas, Cloudinary, and Tailwind CSS v4.**
+> **An Awwwards-caliber, high-performance developer portfolio and headless Content Management System (CMS) engineered with React 19, Node.js, Express, MongoDB Atlas, Cloudinary CDN, Motion, and Tailwind CSS v4.**
 
 [![React](https://img.shields.io/badge/React-19-61dafb?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
 [![Node.js](https://img.shields.io/badge/Node.js-24-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
@@ -13,73 +13,110 @@
 
 ---
 
-## 🌟 Executive Project Overview & Case Study
+## 🌟 Executive Overview & Live Links
 
-This web application represents a **modern, bespoke full-stack engineering solution** designed to transcend standard developer templates. Built with custom typography, physics-driven micro-interactions, and a headless architectural pipeline, it gives full real-time content control via an authenticated **Admin CMS Dashboard** backed by MongoDB Atlas and Cloudinary media delivery.
+This full-stack platform represents an **enterprise-grade developer portfolio and custom CMS architecture** engineered to deliver silky 60fps micro-interactions, physics simulations, and complete real-time content management backed by MongoDB Atlas and Cloudinary media delivery.
 
-- **Live URL**: [https://www.nouman-nawaz.dev](https://www.nouman-nawaz.dev)
-- **Admin Portal**: [https://www.nouman-nawaz.dev/admin](https://www.nouman-nawaz.dev/admin)
+- 🌐 **Live Portfolio**: [https://www.nouman-nawaz.dev](https://www.nouman-nawaz.dev)
+- 🔐 **Admin CMS Portal**: [https://www.nouman-nawaz.dev/admin](https://www.nouman-nawaz.dev/admin)
+- 🐙 **GitHub Repository**: [https://github.com/Hafiz-Noman-Nawaz/Noman_Nawaz.git](https://github.com/Hafiz-Noman-Nawaz/Noman_Nawaz.git)
 
 ---
 
-## 🕹️ Key Features & Interactive Innovations
+## 🚀 Core Features & Architectural Innovations
 
 ### 1. 🕹️ Interactive 2D Rigid-Body "Skill Gravity Sandbox"
-- **Custom Physics Engine**: Built with Verlet integration and rigid-body particle mechanics directly on HTML5 Canvas.
-- **Dynamic Physics Interactions**: Visitors can grab, toss, fling, and bounce skill pills against boundaries and each other with inertia and collision momentum.
-- **Zero-G / Gravity Toggle**: Switch between terrestrial gravity and zero-gravity floating mode.
-- **Viewport-Aware Optimization**: Automatically pauses `requestAnimationFrame` calculations when scrolled away using `IntersectionObserver`, ensuring locked 60fps performance.
+- **Custom Physics Engine**: Built with Verlet numerical integration and rigid-body particle collisions on HTML5 Canvas.
+- **Physics Micro-Interactions**: Visitors can grab, toss, fling, and bounce skill pills against viewport boundaries and other rigid bodies with realistic inertia and momentum.
+- **Zero-G / Earth Gravity Toggle**: Switch instantly between terrestrial gravity and zero-gravity floating mode.
+- **Viewport-Aware Performance**: Automatically pauses `requestAnimationFrame` render loops when scrolled out of view using `IntersectionObserver`, guaranteeing locked 60fps performance.
 
-### 2. 💻 Embedded Interactive Hacker CLI Terminal (`~`)
-- **Keyboard Trigger**: Press **`~`** (backtick / tilde) anywhere or click the terminal icon in the navbar.
-- **Interactive Shell**: Custom command parser supporting `help`, `skills`, `projects`, `about`, `contact`, `hire` (confetti trigger), `theme dark|light|contrast`, `clear`, and `sudo`.
+### 2. 📄 Multi-Layout Executive PDF Resume Engine
+- **3 Switchable Design Engines**:
+  - 🏛️ **Silicon Valley 2-Column Split**: Left high-contrast sidebar with photo, coordinates, skills tags, and education; right column with executive summary, milestones, and featured case studies.
+  - ⚡ **Modern Dark Holographic**: Obsidian background, cyber accents, dark glass cards, and neon stack badges.
+  - 📄 **Minimalist ATS Paper**: Clean monochrome typography and horizontal dividers optimized for automated corporate ATS parsers.
+- **Isolated Clean Print Engine**: Generates razor-sharp, print-safe A4/Letter documents (`break-inside: avoid;`) strictly limited to 1–2 pages with zero page overflow.
+- **Dynamic Case Study Formats**: Displays project title, live demo link, GitHub source code link, compact stack lines, and architectural highlights.
+- **CMS Synchronization & Resume Toggle**: Add/remove projects from the resume in 1-click via the `showOnResume` toggle in the CMS.
 
-### 3. 📱 Multi-Device Hardware Frame Simulator
-- In the project case study modal, visitors can toggle between:
-  - 💻 **MacBook Air** (Desktop viewport)
+### 3. ⚡ Fast-Track Hire & Real-Time Meeting System
+- **Dynamic CMS Engagement Frameworks**: Direct synchronization with customized service tiers and engagement models configured in CMS Settings.
+- **Target Onboarding & Budget Range Selectors**: Captures client timelines (*Immediate*, *Within 2 Weeks*, *Next Month*) and compensation requirements.
+- **📅 Direct Calendly / Google Meet Scheduler**: Embedded 1-click appointment booking so prospective clients can schedule a 15-minute video call directly on your calendar.
+- **💬 Instant WhatsApp Direct Connect**: Auto-generates a pre-filled WhatsApp conversation with your direct number.
+- **📧 Real-Time Nodemailer Email Alerts**: Automatically forwards client briefing details directly to `nawaznoman7766@gmail.com` with 1-click reply buttons.
+- **🗄️ MongoDB Inquiries Inbox**: Full tracking, unread badges, and deletion controls in the CMS Messages tab.
+
+### 4. 🌍 Full Multi-Language Internationalization (i18n)
+- Seamless real-time language switcher supporting:
+  - 🇺🇸 **English** (`en`)
+  - 🇵🇰 **Urdu** (`ur`)
+  - 🇩🇪 **German** (`de`)
+  - 🇪🇸 **Spanish** (`es`)
+- Context-driven translations across Navigation, Hero, Skills, Physics Sandbox, Projects, Timeline, Certificates, Testimonials, Contact, and Footer.
+
+### 5. 🎵 Motion-Driven Ambient Audio & Web Audio API SFX
+- **Procedural Motion Hum**: Space drone audio synthesized via Web Audio API oscillators that activates subtly only when the mouse is moving and falls silent when idle.
+- **Micro-Interaction Harmonic Swell**: Gain increases subtly (+60% harmonic boost) when hovering over interactive buttons, cards, and links.
+- **Custom UI SFX**: Tactile feedback clicks and whooshes on modal open/close, tab switches, and form submissions.
+
+### 6. 🎨 Dynamic Theme-Matched Custom Cursor
+- Precision spring-lag circular follower and center point that dynamically shifts color palettes and glow radii according to the active theme:
+  - 🌌 **Dark Theme**: Obsidian & electric violet glow (`#8b5cf6`).
+  - ☀️ **Light Theme**: Porcelain & royal indigo glow (`#4f46e5`).
+  - ⚡ **High-Contrast Theme**: Pure OLED black & neon green glow (`#00ff66`).
+
+### 7. ⌨️ Global Command Palette (`Ctrl + K` / `Cmd + K`)
+- Instant fuzzy-search overlay allowing keyboard navigation to any section, triggering modal popups (Resume, Estimator, Fast-Track Hire), switching themes, toggling sound, and changing languages.
+
+### 8. 💻 Interactive Developer CLI Terminal (`~`)
+- Press **`~`** (tilde) anywhere or click the terminal icon in the navbar.
+- Fully functional shell supporting:
+  - `help` — Show available commands
+  - `skills` — Output full technical proficiencies
+  - `projects` — List active engineering projects & repository links
+  - `theme dark|light|contrast` — Switch active theme
+  - `hire` — Trigger Fast-Track application modal with celebration confetti
+  - `clear` — Clear terminal buffer
+
+### 9. 📱 Multi-Device Hardware Frame Simulator
+- In the project case study viewer, clients can test responsive viewports across simulated physical devices:
+  - 💻 **MacBook Pro** (Desktop screen frame)
   - 📟 **iPad Pro** (Tablet viewport)
   - 📱 **iPhone 16 Pro** (Mobile portrait frame with hardware notch and bezel reflections)
-- Proves responsiveness across all hardware form-factors.
 
-### 4. 🎧 "Currently Coding" Live Status Dynamic Island
-- A floating Apple-inspired Dynamic Island widget in the viewport corner.
-- Features: Live availability pulsing beacon, real-time activity status, animated audio equalizer bars, and Web Audio API synthesizer sound toggles.
-- **100% Dynamic**: Content is fully synchronized with the CMS settings.
+### 10. 🎧 "Currently Coding" Live Status Dynamic Island
+- Floating Apple-inspired Dynamic Island in the viewport corner displaying:
+  - 🟢 Live availability beacon (*Available for Contracts & Roles*)
+  - ⚡ Current development focus & framework activity
+  - 🎵 Real-time Spotify / Lo-Fi soundtrack display with animated equalizer bars
+  - 🎛️ 100% dynamic and configurable via the CMS Settings panel
 
-### 5. 🌀 Seamless Infinite Skills Wheel Marquee
-- Bespoke CSS `@keyframes` marquee track with zero-cut infinite looping.
-- Drag-and-throw momentum physics with acceleration and hover-to-pause controls.
-- Dynamically rendered from the CMS skills repository with specialized category icon badges.
+### 11. 🧮 Interactive Project Architecture & Scope Estimator
+- Multi-step client blueprint builder allowing founders to select project types, essential modules (Auth, Stripe Payments, Real-Time WebSockets, Cloud Storage), and desired velocity.
+- Calculates projected delivery timelines and automatically pre-fills the Contact inquiry briefing with an architectural blueprint.
 
-### 6. ⏳ Scrollytelling Career Timeline & Hologram Accreditations
-- Vertical luminous timeline connecting career milestones, education, and promotions.
-- 3D Holographic tilt cards featuring metallic glare reflections and verified credential links (AWS, Meta, MongoDB).
+### 12. 📊 Real-Time GitHub Activity Heatmap & Metrics
+- Direct integration with GitHub Public API tracking daily commit frequencies, active repositories, stars, and language breakdowns.
 
-### 7. ⚙️ Production Headless CMS Dashboard (`/admin`)
-- Secure JWT-authenticated administration portal featuring 8 dedicated management panels (Hero, Skills, Projects, Testimonials, Timeline, Certifications, Inbox, Settings).
+### 13. 🛡️ Headless CMS Admin Portal (`/admin`)
+- Secure JWT-authenticated dashboard featuring 8 administrative management panels:
+  - 🦸 **Hero Manager**: Update headline, sub-headline/bio, CTA buttons, and profile imagery.
+  - ⚡ **Skills Wheel**: Add, edit, reorder, and tag technical stack items.
+  - 🚀 **Projects Manager**: Create, edit, and categorize projects, upload media to Cloudinary, configure case studies, and toggle `showOnResume`.
+  - ⭐ **Testimonials Manager**: Moderate public client reviews and add verified client endorsements.
+  - ⏳ **Timeline Manager**: Chronological career milestones, roles, and education.
+  - 📜 **Certificates Manager**: Verified accreditations with issuer badges and credential verification links.
+  - 📬 **Messages Inbox**: View, filter, mark as read, and delete client submissions.
+  - ⚙️ **Global Settings**: Configure identity, coordinates, Calendly URL, live status widget, Fast-Track roles, and admin credentials.
 
-### 8. 🧮 Interactive Project Scope & Architecture Estimator
-- Multi-step interactive estimator modal allowing founders and clients to select project archetypes, core modules (Auth, Payments, Real-time WebSockets, Database), and desired velocity.
-- Computes estimated delivery timeline and generates a technical architectural blueprint that pre-fills into the Contact inquiry form in 1-click.
-
-### 9. 🗂️ Dynamic Project Category Filter Tabs
-- Real-time animated filtering (`All Projects`, `Full-Stack MERN`, `AI & Data Systems`, `3D Motion & UI`, `Next.js & Cloud`) powered by Motion layout spring physics.
-
-### 10. 📊 Live GitHub Activity Cadence & Heatmap
-- Direct integration with GitHub Public API tracking daily commit frequency, active repositories, stars, and language distribution.
-
-### 11. 💻 Interactive Live Code Execution Playground
-- Built-in developer IDE tabs (`VerletPhysicsEngine.js`, `JWTMiddleware.js`, `CloudinaryStreamPipeline.js`, `MongoAggregateMetrics.js`) with syntax highlighting, code copying, and a simulated **"▶ Run Snippet"** real-time terminal output stream.
-
-### 12. 🧭 Minimalist Desktop Scroll Progress HUD
-- Vertical HUD tracker showing real-time scroll completion and active section beacon with 1-click smooth jump navigation.
-
-### 13. 🌐 Complete SEO OpenGraph & Google JSON-LD Schema
-- Full Open Graph rich preview cards, Twitter Cards, and schema.org `Person` structured data for top Google ranking.
+### 14. 🔗 Clean Social Profile Filtering
+- Only displays social links (GitHub, LinkedIn, Twitter/X, Instagram) that are actively configured in CMS settings, automatically hiding empty links.
 
 ---
 
-## 🛠️ Complete Technology Stack & Architecture
+## 🛠️ Complete Technical Architecture
 
 ```
                                ┌─────────────────────────────────────────┐
@@ -87,7 +124,7 @@ This web application represents a **modern, bespoke full-stack engineering solut
                                │   React 19 + Vite + Tailwind CSS v4     │
                                └────────────────────┬────────────────────┘
                                                     │
-                                      REST APIs / JSON / JWT
+                                       REST APIs / JSON / JWT
                                                     │
                                ┌────────────────────▼────────────────────┐
                                │           Render Web Service            │
@@ -98,178 +135,110 @@ This web application represents a **modern, bespoke full-stack engineering solut
                                               ▼                  ▼
                                ┌──────────────────────┐  ┌───────────────┐
                                │  MongoDB Atlas Cloud │  │  Cloudinary   │
-                               │  Multi-Region Shards │  │   Media CDN   │
+                               │  (Multi-region DB)   │  │  Media CDN    │
                                └──────────────────────┘  └───────────────┘
 ```
 
-### Frontend Architecture
-| Technology | Version | Purpose |
-| :--- | :--- | :--- |
-| **React** | `19.0.0` | Next-generation declarative UI architecture |
-| **Tailwind CSS** | `4.0.0` | Modern CSS tokens, hardware-accelerated glassmorphism |
-| **Motion** | `12.4.7` | 60FPS fluid spring physics and layout transitions |
-| **Vite** | `6.4.3` | Ultra-fast lightning development & Rollup vendor chunking |
-| **Lucide React** | `0.475.0` | Vector icon system |
-| **Canvas Confetti** | `1.9.4` | Particle celebration animations |
-| **React Router** | `7.2.0` | Client-side SPA routing |
-| **Axios** | `1.7.9` | Automatic JWT auth interceptor and base URL normalizer |
-| **React Markdown** | `9.0.3` | Real-time Markdown parsing for deep project case studies |
+---
 
-### Backend Architecture
-| Technology | Version | Purpose |
-| :--- | :--- | :--- |
-| **Node.js** | `24.x` | High-throughput asynchronous runtime |
-| **Express.js** | `4.21.2` | RESTful API routing, dual `/api` and direct prefix mounting |
-| **MongoDB Atlas** | `8.x` | Managed multi-tenant document database with replica set clustering |
-| **Mongoose** | `8.10.1` | Strict schema validation and pre-save password encryption |
-| **Bcrypt.js** | `3.0.2` | Salted SHA-512 password hashing |
-| **JSON Web Tokens** | `9.0.2` | Stateless cryptographic admin session authorization |
-| **Cloudinary SDK** | `2.5.1` | Automated media stream upload and WebP optimization pipeline |
-| **Multer** | `1.4.5` | In-memory multipart buffer processing |
+## 📂 Repository Structure
+
+```
+Noman_Nawaz/
+├── client/                           # React 19 Frontend Application
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── certificates/         # Verified Certificates Section & Tilt Cards
+│   │   │   ├── contact/              # Direct Contact Form & Dynamic Socials
+│   │   │   ├── github/               # Live GitHub API Activity & Heatmap
+│   │   │   ├── hero/                 # 3D Tilt Hero Section & Glare Effects
+│   │   │   ├── layout/               # Navbar, Footer, ResumeModal, HireMeModal, CustomCursor
+│   │   │   ├── projects/             # Projects Gallery, Filter Tabs & Frame Simulator
+│   │   │   ├── skills/               # Infinite Skills Marquee & Physics Sandbox
+│   │   │   ├── testimonials/         # Review Carousel & Client Modal
+│   │   │   ├── timeline/             # Scrollytelling Career Milestones
+│   │   │   └── ui/                   # CommandPalette, InteractiveTerminal, Dynamic Island
+│   │   ├── context/                  # AuthContext, ThemeContext, SoundContext, LanguageContext
+│   │   ├── pages/                    # Home.jsx, Login.jsx, /admin/ (8 CMS Managers)
+│   │   ├── services/                 # Axios API Pipeline & Interceptors
+│   │   └── index.css                 # Tailwind CSS v4 Tokens, Animations & @media print
+│   └── vite.config.js                # Vite 6.4 Build Pipeline & Code Splitting
+│
+└── server/                           # Node.js + Express Backend API
+    ├── middleware/                   # JWT Auth & Protected Route Middleware
+    ├── models/                       # Mongoose Schemas (Hero, Project, Testimonial, Settings, etc.)
+    ├── routes/                       # REST Endpoints (auth, projects, messages, settings, etc.)
+    ├── utils/                        # mailer.js (Nodemailer email alerting utility)
+    ├── seed.js                       # Initial Database Seeder
+    └── server.js                     # Express Server Entrypoint & CORS Configuration
+```
 
 ---
 
-## ⚡ Performance & Engineering Optimizations
+## ⚡ Getting Started Locally
 
-1. **Zero-Re-Render 3D Card Tilting (`useTilt.js`)**:
-   - Replaced state-driven mouse tracking with direct DOM `requestAnimationFrame` transforms (`transform: translateZ(0)`), completely eliminating React re-render overhead during mouse moves.
-2. **IntersectionObserver Canvas Viewport Pausing**:
-   - Both the Particle Canvas background and the Physics Sandbox automatically halt animation loops when scrolled off-screen, freeing 100% of GPU compute.
-3. **On-Demand Code Splitting (`React.lazy()`)**:
-   - Heavy modals (`InteractiveTerminal`, `CommandPalette`, `ResumeModal`) are chunked separately via Rollup, cutting initial JavaScript parse size by >45%.
-4. **Optimized Glass Blur Compositing**:
-   - Tuned `--glass-blur` to `12px` with `will-change: transform` compositor isolation, reducing GPU fill-rate rasterization by 80%.
+### Prerequisites
+- Node.js (v20+ recommended)
+- MongoDB Atlas database URI or local MongoDB instance
+- Cloudinary Account (for media uploads)
 
----
-
-## 🔌 API Endpoints Reference
-
-### 🔐 Authentication (`/api/auth`)
-- `POST /api/auth/login` — Verify admin credentials and issue 30-day JWT token.
-- `GET  /api/auth/me` — Verify active admin token session (Protected).
-- `PUT  /api/auth/password` — Rotate admin password with bcrypt re-hash (Protected).
-
-### 🌟 Hero Section (`/api/hero`)
-- `GET  /api/hero` — Fetch hero headline, subtext, and profile portrait.
-- `PUT  /api/hero` — Update hero data & upload new avatar to Cloudinary (Protected).
-
-### 📁 Projects & Case Studies (`/api/projects`)
-- `GET    /api/projects` — Retrieve all projects sorted by display order.
-- `GET    /api/projects/:id` — Retrieve detailed project case study.
-- `POST   /api/projects` — Create project with thumbnail, video preview & metrics (Protected).
-- `PUT    /api/projects/:id` — Update project metadata (Protected).
-- `DELETE /api/projects/:id` — Remove project from showcase (Protected).
-
-### ⏳ Career Timeline (`/api/timeline`)
-- `GET    /api/timeline` — Fetch all work, education, and award milestones.
-- `POST   /api/timeline` — Add career milestone (Protected).
-- `PUT    /api/timeline/:id` — Update milestone details (Protected).
-- `DELETE /api/timeline/:id` — Delete milestone (Protected).
-
-### 🏆 Certifications (`/api/certificates`)
-- `GET    /api/certificates` — Fetch verified credential cards.
-- `POST   /api/certificates` — Add certificate with Cloudinary badge upload (Protected).
-- `PUT    /api/certificates/:id` — Update certificate info (Protected).
-- `DELETE /api/certificates/:id` — Delete certificate (Protected).
-
-### 💬 Testimonials (`/api/testimonials`)
-- `GET    /api/testimonials` — Fetch client recommendations and star ratings.
-- `POST   /api/testimonials` — Create testimonial with client avatar upload (Protected).
-- `PUT    /api/testimonials/:id` — Update testimonial (Protected).
-- `DELETE /api/testimonials/:id` — Delete testimonial (Protected).
-
-### 📬 Messages & Contact Form (`/api/messages`)
-- `POST   /api/messages` — Submit contact form inquiry (Public).
-- `GET    /api/messages` — Fetch all inquiries with unread count (Protected).
-- `PUT    /api/messages/:id/read` — Toggle read/unread flag (Protected).
-- `DELETE /api/messages/:id` — Delete message from inbox (Protected).
-
-### ⚙️ Settings & Live Status (`/api/settings`)
-- `GET  /api/settings` — Fetch global coordinates, skills array, and live status.
-- `PUT  /api/settings` — Update contact coordinates, skills tags, and live status (Protected).
-
----
-
-## 💻 Local Development Setup
-
-### 1. Prerequisites
-- **Node.js**: v18.x or higher
-- **npm**: v9.x or higher
-- **MongoDB**: MongoDB Atlas Cluster or local MongoDB URI
-
-### 2. Clone & Install
+### 1. Clone the Repository
 ```bash
-# Clone the repository
-git clone https://github.com/YOUR_USERNAME/Noman_Nawaz.git
+git clone https://github.com/Hafiz-Noman-Nawaz/Noman_Nawaz.git
 cd Noman_Nawaz
+```
 
-# Install Backend Dependencies
+### 2. Backend Setup
+```bash
 cd server
-npm install
-
-# Install Frontend Dependencies
-cd ../client
 npm install
 ```
 
-### 3. Environment Configuration
-
-Create `server/.env`:
+Create a `.env` file in the `server` directory:
 ```env
 PORT=5000
-MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/portfolio?retryWrites=true&w=majority
-JWT_SECRET=your_super_secret_jwt_key
+MONGODB_URI=your_mongodb_atlas_connection_string
+JWT_SECRET=your_secure_jwt_secret_key
 CLIENT_URL=http://localhost:5173
 
-CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
-CLOUDINARY_API_KEY=your_cloudinary_api_key
-CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+# Cloudinary
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+
+# Optional Email Alerts
+EMAIL_USER=your_gmail@gmail.com
+EMAIL_PASS=your_gmail_app_password
+NOTIFICATION_EMAIL=nawaznoman7766@gmail.com
 ```
 
-Create `client/.env`:
-```env
-VITE_API_URL=http://localhost:5000/api
-```
-
-### 4. Seed Database
+Start the backend:
 ```bash
-cd server
-node seed.js
-```
-
-### 5. Launch Development Servers
-```bash
-# Terminal 1: Run Backend (Port 5000)
-cd server
-npm run dev
-
-# Terminal 2: Run Frontend (Port 5173)
-cd client
 npm run dev
 ```
 
-Visit **[http://localhost:5173](http://localhost:5173)**.
+### 3. Frontend Setup
+```bash
+cd ../client
+npm install
+npm run dev
+```
+
+The application will be accessible at `http://localhost:5173`.
 
 ---
 
-## 🚀 Production Deployment Blueprint
-
-### Backend Deployment (Render.com)
-1. Create a **New Web Service** pointing to your repository.
-2. Set **Root Directory** to `server`.
-3. Build Command: `npm install` | Start Command: `node server.js`.
-4. Add environment variables: `PORT=5000`, `MONGODB_URI`, `JWT_SECRET`, `CLIENT_URL=https://www.nouman-nawaz.dev`, `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`.
-
-### Frontend Deployment (Vercel.com)
-1. Import repository to Vercel.
-2. Set **Root Directory** to `client` and Framework Preset to `Vite`.
-3. Set Environment Variable: `VITE_API_URL=https://your-render-app.onrender.com/api`.
-4. Connect custom domain (`nouman-nawaz.dev`).
+## 🔐 Admin Authentication
+- **Admin Portal**: `/admin`
+- Default administrator credentials can be seeded or updated securely via the CMS Settings panel.
 
 ---
 
-## 📄 License
+## 📜 License
+This project is licensed under the MIT License — feel free to use and adapt for your own engineering showcases.
 
-This project is open-source software licensed under the **MIT License**.
+---
 
-Designed & Engineered with ❤️ by **Noman Nawaz**.
+<div align="center">
+  <sub>Engineered with ❤️ by <strong>Noman Nawaz</strong></sub>
+</div>
