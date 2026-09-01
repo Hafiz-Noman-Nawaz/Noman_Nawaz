@@ -202,12 +202,13 @@ export const HeroSection = ({ heroData, onOpenEstimator, onOpenHireMe }) => {
                   {photoUrl && (
                     <img
                       src={photoUrl}
-                      alt="Noman Nawaz"
+                      alt="Noman Nawaz — Full Stack Web Developer"
                       onLoad={() => setImageLoaded(true)}
                       className={`w-full h-full object-cover group-hover:scale-105 transition-all duration-700 ${
                         imageLoaded ? 'opacity-100' : 'opacity-0'
                       }`}
                       loading="eager"
+                      fetchPriority="high"
                     />
                   )}
 

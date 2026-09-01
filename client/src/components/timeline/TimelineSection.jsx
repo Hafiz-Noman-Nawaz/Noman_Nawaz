@@ -60,9 +60,9 @@ const TimelineCard = ({ item, index }) => {
               </span>
             </div>
 
-            <h4 className="text-base sm:text-lg font-display font-bold text-text">
+            <h3 className="text-base sm:text-lg font-display font-bold text-text">
               {item.title}
-            </h4>
+            </h3>
 
             {item.company && (
               <p className="text-xs font-semibold text-secondary mt-0.5">

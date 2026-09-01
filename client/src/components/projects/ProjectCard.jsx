@@ -59,7 +59,7 @@ export const ProjectCard = ({ project, onSelect, index }) => {
         <div className="relative aspect-[16/10] w-full overflow-hidden bg-bg-secondary">
           <img
             src={project.thumbnail}
-            alt={project.title}
+            alt={`${project.title} — Web Application Project by Noman Nawaz`}
             className={`w-full h-full object-cover object-top transition-all duration-700 ease-out ${
               isHovered && project.previewVideo ? 'opacity-0 scale-105' : 'opacity-100 group-hover:scale-108'
             }`}

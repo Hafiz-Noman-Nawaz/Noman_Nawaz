@@ -55,9 +55,9 @@ const CertificateCard = ({ cert, index }) => {
           </div>
 
           <div>
-            <h4 className="text-lg font-display font-bold text-text group-hover:text-primary transition-colors">
+            <h3 className="text-lg font-display font-bold text-text group-hover:text-primary transition-colors">
               {cert.title}
-            </h4>
+            </h3>
             <p className="text-xs font-semibold text-secondary mt-1 flex items-center gap-1.5">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
               {cert.issuer}

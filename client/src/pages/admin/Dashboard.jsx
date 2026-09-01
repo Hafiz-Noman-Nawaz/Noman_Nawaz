@@ -34,6 +34,21 @@ export const Dashboard = () => {
   const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => {
+    let robotsMeta = document.querySelector('meta[name="robots"]');
+    if (!robotsMeta) {
+      robotsMeta = document.createElement('meta');
+      robotsMeta.name = 'robots';
+      document.head.appendChild(robotsMeta);
+    }
+    const previousContent = robotsMeta.content;
+    robotsMeta.content = 'noindex, nofollow';
+
+    return () => {
+      robotsMeta.content = previousContent || 'index, follow';
+    };
+  }, []);
+
+  useEffect(() => {
     if (!loading && !isAuthenticated) {
       navigate('/login');
     }
